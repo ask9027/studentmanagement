@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:student_list/pages/pdf_and_printing.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
@@ -123,12 +125,46 @@ class _HomePageState extends State<HomePage> {
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Text(
-                                "Student List",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8,
+                                  bottom: 8,
+                                  left: 16,
+                                  right: 16,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      "Student List",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        Get.snackbar(
+                                          "Pdf Genrator",
+                                          "Pdf creating...",
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.red.shade400,
+                                          colorText: Colors.white,
+                                        );
+                                        Timer(
+                                          const Duration(seconds: 3),
+                                          (() => PdfAndPrinting()
+                                              .createPdf(snapshot.data!)),
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        Icons.picture_as_pdf,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Expanded(

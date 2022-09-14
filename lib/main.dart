@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:student_list/pages/home_page.dart';
 
 void main() async {
@@ -19,9 +20,10 @@ class StudentListApp extends StatelessWidget {
           statusBarIconBrightness: Brightness.dark),
     );
 
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Student List',
       theme: ThemeData(
+        fontFamily: "Fira-Code",
         inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
