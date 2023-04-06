@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:student_list/database/models.dart';
 
 import 'package:pdf/widgets.dart' as pw;
@@ -11,7 +10,6 @@ class PdfAndPrinting {
       final doc = pw.Document();
       doc.addPage(
         pw.MultiPage(
-          theme: pw.ThemeData(defaultTextStyle: pw.TextStyle(font: ttf)),
           margin: const pw.EdgeInsets.all(10),
           pageFormat: PdfPageFormat.a4,
           build: (pw.Context context) {
