@@ -82,13 +82,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Fira-Code
-      fonts:
-        - asset: assets/fonts/firacode/FiraCode-Regular.ttf
-        - asset: assets/fonts/firacode/FiraCode-Bold.ttf
-        - asset: assets/fonts/firacode/FiraCode-Light.ttf
-        - asset: assets/fonts/firacode/FiraCode-Medium.ttf
-        - asset: assets/fonts/firacode/FiraCode-SemiBold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

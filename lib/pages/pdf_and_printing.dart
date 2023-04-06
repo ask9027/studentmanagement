@@ -9,9 +9,6 @@ class PdfAndPrinting {
   Future<void> createPdf([List<Student>? data]) async {
     if (data != null) {
       final doc = pw.Document();
-      final font =
-          await rootBundle.load("assets/fonts/firacode/FiraCode-Regular.ttf");
-      final ttf = pw.Font.ttf(font);
       doc.addPage(
         pw.MultiPage(
           theme: pw.ThemeData(defaultTextStyle: pw.TextStyle(font: ttf)),
