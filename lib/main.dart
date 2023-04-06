@@ -35,4 +35,3 @@ class StudentListApp extends StatelessWidget {
     );
   }
 }
-
