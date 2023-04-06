@@ -1,4 +1,5 @@
-# student_list
+# Student List
+[![Flutter CI](https://github.com/ask9027/student_list/actions/workflows/build.yml/badge.svg)](https://github.com/ask9027/student_list/actions/workflows/build.yml)
 
 A new Flutter project.
 
