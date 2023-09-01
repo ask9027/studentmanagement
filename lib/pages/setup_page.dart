@@ -83,6 +83,8 @@ class _SetupState extends State<Setup> {
                 DropDownValueModel(name: "8th", value: '8th'),
                 DropDownValueModel(name: "9th", value: '9th'),
                 DropDownValueModel(name: "10th", value: '10th'),
+				DropDownValueModel(name: "11th", value: '11th'),
+				DropDownValueModel(name: "12th", value: '12th'),
               ],
               textFieldDecoration: const InputDecoration(
                 label: Text("Class"),
