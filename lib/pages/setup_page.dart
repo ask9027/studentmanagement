@@ -71,7 +71,7 @@ class _SetupState extends State<Setup> {
             DropDownTextField(
               enableSearch: false,
               clearOption: false,
-              singleController: classCont,
+              controller: classCont,
               dropDownList: const [
                 DropDownValueModel(name: "1st", value: '1st'),
                 DropDownValueModel(name: "2nd", value: '2nd'),
