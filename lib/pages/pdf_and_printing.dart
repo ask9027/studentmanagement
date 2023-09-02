@@ -40,7 +40,7 @@ class PdfAndPrinting {
                                 pw.Text(
                                   "  ${student.name}",
                                   style: pw.TextStyle(
-                                    color: const PdfColor.fromInt(0xFF000000),
+                                    color: const PdfColor.fromInt(0xFF448AFF),
                                     fontWeight: pw.FontWeight.bold,
                                   ),
                                 ),
