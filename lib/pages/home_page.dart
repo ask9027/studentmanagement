@@ -127,8 +127,6 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(
-                                  top: 8,
-                                  bottom: 8,
                                   left: 16,
                                   right: 16,
                                 ),
@@ -173,8 +171,10 @@ class _HomePageState extends State<HomePage> {
                                   itemCount: snapshot.data!.toList().length,
                                   itemBuilder: (context, index) {
                                     return Container(
-                                      padding: const EdgeInsets.all(16),
-                                      margin: const EdgeInsets.all(16),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 5),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 16),
                                       decoration: BoxDecoration(
                                         color: Colors.deepPurple.shade50,
                                         borderRadius: BorderRadius.circular(16),
@@ -217,7 +217,8 @@ class _HomePageState extends State<HomePage> {
                                                     Text(
                                                       "  ${student.name}",
                                                       style: const TextStyle(
-                                                        color: Colors.black,
+                                                        color:
+                                                            Colors.blueAccent,
                                                         fontWeight:
                                                             FontWeight.bold,
                                                       ),
