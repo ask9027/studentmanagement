@@ -130,7 +130,7 @@ class _SetupState extends State<Setup> {
                               ),
                             );
 
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         showSnack(context, "${classModel.className} Added.");
 
                         Navigator.pushReplacement(
@@ -156,7 +156,8 @@ class _SetupState extends State<Setup> {
                                 "$error Update",
                               ),
                             );
-                        if (!mounted) return;
+                        if (!context.mounted) return;
+
                         showSnack(context,
                             "${classCont.dropDownValue!.name} Updated.");
 

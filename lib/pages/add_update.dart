@@ -106,7 +106,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                             context,
                                             error.toString(),
                                           ));
-                                  if (!mounted) return;
+                                  if (!context.mounted) return;
                                   Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
@@ -205,7 +205,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               ),
                             );
 
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         showSnack(context, "${student.name} Added.");
 
                         Navigator.pop(context);
@@ -226,7 +226,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 "$error Update",
                               ),
                             );
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         showSnack(
                             context, "${nameCont.text.toTitleCase()} Updated.");
 
