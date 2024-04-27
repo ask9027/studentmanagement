@@ -59,7 +59,7 @@ CREATE TABLE $classTable(
   Future<List<Student>> getAllStudents() async {
     final db = await instance.database;
     const orderBy =
-        "${StudentFields.gender}, ${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+        "CASE ${StudentFields.gender} WHEN 'girl' THEN 0 WHEN 'boy' THEN 1 END, ${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
     final result = await db.query(studentTable, orderBy: orderBy);
     return result.map((json) => Student.fromJson(json)).toList();
   }

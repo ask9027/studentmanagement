@@ -188,8 +188,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                 checkFields();
               },
               dropDownList: const [
-                DropDownValueModel(name: "Boy", value: "boy"),
-                DropDownValueModel(name: "Girl", value: "girl"),
+                DropDownValueModel(name: "boy", value: "boy"),
+                DropDownValueModel(name: "girl", value: "girl"),
               ],
             ),
             const SizedBox(
