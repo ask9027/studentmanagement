@@ -2,19 +2,18 @@
 const studentTable = "students";
 
 class StudentFields {
+  static const String id = "_id";
+  static const String name = "name";
+  static const String fatherName = "fatherName";
+  static const String className = "className";
+  static const String gender = "gender";
   static final List<String> values = [
     id,
     name,
     fatherName,
     className,
-    rollNumber,
+    gender,
   ];
-
-  static const String id = "_id";
-  static const String name = "name";
-  static const String fatherName = "fatherName";
-  static const String className = "className";
-  static const String rollNumber = "rollNumber";
 }
 
 class Student {
@@ -22,14 +21,14 @@ class Student {
   final String name;
   final String fatherName;
   final String className;
-  final String rollNumber;
+  final String gender;
 
   const Student({
     this.id,
     required this.name,
     required this.fatherName,
     required this.className,
-    required this.rollNumber,
+    required this.gender,
   });
 
   Student copy({
@@ -37,14 +36,14 @@ class Student {
     String? name,
     String? fatherName,
     String? className,
-    String? rollNumber,
+    String? gender,
   }) =>
       Student(
         id: id ?? this.id,
         name: name ?? this.name,
         fatherName: fatherName ?? this.fatherName,
         className: className ?? this.className,
-        rollNumber: rollNumber ?? this.rollNumber,
+        gender: gender ?? this.gender,
       );
 
   static Student fromJson(Map<String, Object?> json) => Student(
@@ -52,7 +51,7 @@ class Student {
         name: json[StudentFields.name] as String,
         fatherName: json[StudentFields.fatherName] as String,
         className: json[StudentFields.className] as String,
-        rollNumber: json[StudentFields.rollNumber] as String,
+        gender: json[StudentFields.gender] as String,
       );
 
   Map<String, Object?> toJson() => {
@@ -60,7 +59,7 @@ class Student {
         StudentFields.name: name,
         StudentFields.fatherName: fatherName,
         StudentFields.className: className,
-        StudentFields.rollNumber: rollNumber,
+        StudentFields.gender: gender,
       };
 }
 

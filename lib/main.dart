@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:studentmanagement/pages/home_page.dart';
+
+import 'pages/home_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized;
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const StudentListApp());
 }
 
 class StudentListApp extends StatelessWidget {
   const StudentListApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

@@ -1,13 +1,14 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:studentmanagement/extensions.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
+import '../extensions.dart';
 import '../widgets.dart';
 
 class AddUpdateStudent extends StatefulWidget {
   const AddUpdateStudent({super.key, this.isAdd, this.student, this.className});
+
   final bool? isAdd;
   final Student? student;
   final String? className;
@@ -19,7 +20,10 @@ class AddUpdateStudent extends StatefulWidget {
 class _AddUpdateStudentState extends State<AddUpdateStudent> {
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController fNameCont = TextEditingController();
-  final TextEditingController rollNCont = TextEditingController();
+  SingleValueDropDownController genderCont = SingleValueDropDownController(
+    data:
+        const DropDownValueModel(name: "Select Gender", value: "Select Gender"),
+  );
   bool isBtnEnable = false;
 
   @override
@@ -27,7 +31,10 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     if (!widget.isAdd!) {
       nameCont.text = widget.student!.name;
       fNameCont.text = widget.student!.fatherName;
-      rollNCont.text = widget.student!.rollNumber;
+      genderCont = SingleValueDropDownController(
+          data: DropDownValueModel(
+              name: widget.student!.gender.toString(),
+              value: widget.student!.gender.toString()));
     }
     super.initState();
   }
@@ -36,7 +43,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     setState(() {
       if (nameCont.text.toString().isNotEmpty &&
           fNameCont.text.toString().isNotEmpty &&
-          rollNCont.text.toString().isNotEmpty) {
+          !genderCont.dropDownValue!.name.contains("Select Gender")) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -48,7 +55,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   void dispose() {
     nameCont.dispose();
     fNameCont.dispose();
-    rollNCont.dispose();
+    genderCont.dispose();
     super.dispose();
   }
 
@@ -170,16 +177,20 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
             const SizedBox(
               height: 20,
             ),
-            TextFormField(
-              controller: rollNCont,
-              decoration: const InputDecoration(
-                hintText: "Enter Roll Number",
-                label: Text("Roll Number"),
+            DropDownTextField(
+              enableSearch: false,
+              clearOption: false,
+              controller: genderCont,
+              textFieldDecoration: const InputDecoration(
+                label: Text("Gender"),
               ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (value) {
+                checkFields();
+              },
+              dropDownList: const [
+                DropDownValueModel(name: "Boy", value: "boy"),
+                DropDownValueModel(name: "Girl", value: "girl"),
+              ],
             ),
             const SizedBox(
               height: 30,
@@ -194,7 +205,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
                                 className: widget.className!,
-                                rollNumber: rollNCont.text,
+                                gender: genderCont.dropDownValue!.value,
                               ),
                             )
                             .onError(
@@ -216,7 +227,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
                                 className: widget.className!,
-                                rollNumber: rollNCont.text,
+                                gender: genderCont.dropDownValue!.value,
                               ),
                             )
                             .onError(

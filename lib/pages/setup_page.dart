@@ -1,16 +1,18 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:studentmanagement/extensions.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
+import '../extensions.dart';
 import '../widgets.dart';
 import 'home_page.dart';
 
 class Setup extends StatefulWidget {
   const Setup({super.key, this.isAdd, this.classModel});
+
   final bool? isAdd;
   final ClassModel? classModel;
+
   @override
   State<Setup> createState() => _SetupState();
 }

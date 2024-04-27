@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studentmanagement/pages/pdf_and_printing.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
+import '../pages/pdf_and_printing.dart';
 import '../widgets.dart';
 import 'add_update.dart';
 import 'setup_page.dart';
@@ -233,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  "Roll No. ${student.rollNumber}",
+                                                  "Gender. ${student.gender}",
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,

@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:studentmanagement/database/models.dart';
+
+import '../database/models.dart';
 
 class StudentDBHelper {
   static final StudentDBHelper instance = StudentDBHelper._init();
@@ -30,7 +31,7 @@ CREATE TABLE $studentTable(
   ${StudentFields.name} $textType,
   ${StudentFields.fatherName} $textType,
   ${StudentFields.className} $textType,
-  ${StudentFields.rollNumber} $textType
+  ${StudentFields.gender} $textType
 )
 """);
     await db.execute("""
@@ -58,7 +59,7 @@ CREATE TABLE $classTable(
   Future<List<Student>> getAllStudents() async {
     final db = await instance.database;
     const orderBy =
-        "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+        "${StudentFields.gender}, ${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
     final result = await db.query(studentTable, orderBy: orderBy);
     return result.map((json) => Student.fromJson(json)).toList();
   }
