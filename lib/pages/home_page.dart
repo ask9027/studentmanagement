@@ -297,10 +297,9 @@ class _HomePageState extends State<HomePage> {
         return Container(
           padding: const EdgeInsets.all(16.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Gender',
                       style: TextStyle(
@@ -362,7 +361,7 @@ class _HomePageState extends State<HomePage> {
                         _orderByName = "";
                       });
                     },
-                    child: const Text('Apply'),
+                    child: const Text('Clear Order'),
                   ),
                 ],
               )
