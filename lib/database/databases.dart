@@ -56,10 +56,29 @@ CREATE TABLE $classTable(
     return classModel.copy(id: id);
   }
 
-  Future<List<Student>> getAllStudents() async {
+  Future<List<Student>> getAllStudents(String gender, String name) async {
     final db = await instance.database;
-    const orderBy =
-        "CASE ${StudentFields.gender} WHEN 'girl' THEN 0 WHEN 'boy' THEN 1 END, ${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+
+    String orderBy = "";
+    if (gender == 'girl') {
+      orderBy +=
+          "CASE ${StudentFields.gender} WHEN 'girl' THEN 0 WHEN 'boy' THEN 1 END, ";
+    } else if (gender == 'boy') {
+      orderBy +=
+          "CASE ${StudentFields.gender} WHEN 'boy' THEN 0 WHEN 'girl' THEN 1 END, ";
+    }
+
+    if (name == 'name') {
+      orderBy +=
+          "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+    } else if (name == 'fathername') {
+      orderBy +=
+          "${StudentFields.fatherName}, ${StudentFields.name} COLLATE NOCASE";
+    } else {
+      orderBy +=
+          "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+    }
+
     final result = await db.query(studentTable, orderBy: orderBy);
     return result.map((json) => Student.fromJson(json)).toList();
   }

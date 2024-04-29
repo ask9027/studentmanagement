@@ -18,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _orderByGender = "";
+  String _orderByName = "name";
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ClassModel>>(
@@ -94,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 body: FutureBuilder<List<Student>>(
                   future: StudentDBHelper.instance
-                      .getAllStudents()
+                      .getAllStudents(_orderByGender, _orderByName)
                       .onError((error, stackTrace) => showSnack(
                             context,
                             error.toString(),
@@ -142,26 +145,39 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {
-                                        Get.snackbar(
-                                          "Pdf Genrator",
-                                          "Pdf creating...",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          backgroundColor: Colors.red.shade400,
-                                          colorText: Colors.white,
-                                        );
-                                        Timer(
-                                          const Duration(seconds: 3),
-                                          (() => PdfAndPrinting()
-                                              .createPdf(snapshot.data!)),
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.picture_as_pdf,
-                                        color: Colors.red,
-                                      ),
-                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () =>
+                                                _openSortOptions(context),
+                                            icon: const Icon(
+                                              Icons.sort,
+                                              color: Colors.blueAccent,
+                                            )),
+                                        IconButton(
+                                          onPressed: () {
+                                            Get.snackbar(
+                                              "Pdf Genrator",
+                                              "Pdf creating...",
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                              backgroundColor:
+                                                  Colors.red.shade400,
+                                              colorText: Colors.white,
+                                            );
+                                            Timer(
+                                              const Duration(seconds: 3),
+                                              (() => PdfAndPrinting()
+                                                  .createPdf(snapshot.data!)),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.picture_as_pdf,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
@@ -215,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      "  ${student.name}",
+                                                      ":  ${student.name}",
                                                       style: const TextStyle(
                                                         color:
                                                             Colors.blueAccent,
@@ -226,14 +242,14 @@ class _HomePageState extends State<HomePage> {
                                                   ],
                                                 ),
                                                 Text(
-                                                  "Class. ${student.className}",
+                                                  "Class : ${student.className}",
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
                                                 Text(
-                                                  "Gender. ${student.gender}",
+                                                  "Gender : ${student.gender}",
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.bold,
@@ -268,6 +284,70 @@ class _HomePageState extends State<HomePage> {
                   child: const Icon(Icons.add),
                 ),
               );
+      },
+    );
+  }
+
+  void _openSortOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Gender',
+                  style:
+                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
+              DropdownButton<String>(
+                value: _orderByGender,
+                onChanged: (value) {
+                  setState(() {
+                    _orderByGender = value!.toLowerCase();
+                  });
+                },
+                items: ['Boy', 'Girl'].map((gender) {
+                  return DropdownMenuItem<String>(
+                    value: gender,
+                    child: Text(gender),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16.0),
+              const Text('Others',
+                  style:
+                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8.0),
+              DropdownButton<String>(
+                value: _orderByName,
+                onChanged: (value) {
+                  setState(() {
+                    _orderByName = value!.camelCase!;
+                  });
+                },
+                items: ['Name', 'Father Name'].map((sortOption) {
+                  return DropdownMenuItem<String>(
+                    value: sortOption,
+                    child: Text(sortOption),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Apply sorting and close bottom sheet
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Apply'),
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
