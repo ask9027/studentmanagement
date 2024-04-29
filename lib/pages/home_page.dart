@@ -306,10 +306,10 @@ class _HomePageState extends State<HomePage> {
                 value: _orderByGender,
                 onChanged: (value) {
                   setState(() {
-                    _orderByGender = value!.toLowerCase();
+                    _orderByGender = value!;
                   });
                 },
-                items: ['Boy', 'Girl'].map((gender) {
+                items: ['boy', 'girl'].map((gender) {
                   return DropdownMenuItem<String>(
                     value: gender,
                     child: Text(gender),
@@ -325,11 +325,10 @@ class _HomePageState extends State<HomePage> {
                 value: _orderByName,
                 onChanged: (value) {
                   setState(() {
-                    _orderByName = value!.camelCase!;
+                    _orderByName = value!;
                   });
-                  showSnack(context, value!.camelCase!);
                 },
-                items: ['Name', 'Father Name'].map((sortOption) {
+                items: ['name', 'fatherName'].map((sortOption) {
                   return DropdownMenuItem<String>(
                     value: sortOption,
                     child: Text(sortOption),
