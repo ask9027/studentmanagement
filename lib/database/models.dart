@@ -16,6 +16,11 @@ class StudentFields {
   ];
 }
 
+enum Gender {
+  girl,
+  boy,
+}
+
 class Student {
   final int? id;
   final String name;

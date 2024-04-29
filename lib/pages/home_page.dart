@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String _orderByGender = "";
-  String _orderByName = "name";
+  String _orderByName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -289,62 +289,83 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _openSortOptions(BuildContext context) {
+    String orderByGender = "";
+    String orderByName = "";
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              const Text('Gender',
-                  style:
-                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
-              DropdownButton<String>(
-                value: _orderByGender,
-                onChanged: (value) {
-                  setState(() {
-                    _orderByGender = value!;
-                  });
-                },
-                items: ['boy', 'girl'].map((gender) {
-                  return DropdownMenuItem<String>(
-                    value: gender,
-                    child: Text(gender),
-                  );
-                }).toList(),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Gender',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8.0),
+                  DropdownButton<String>(
+                    value: orderByGender,
+                    onChanged: (value) {
+                      setState(() {
+                        orderByGender = value!;
+                      });
+                    },
+                    items: ['boy', 'girl'].map((gender) {
+                      return DropdownMenuItem<String>(
+                        value: gender,
+                        child: Text(gender),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 16.0),
+                  const Text('Others',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8.0),
+                  DropdownButton<String>(
+                    value: orderByName,
+                    onChanged: (value) {
+                      setState(() {
+                        orderByName = value!;
+                      });
+                    },
+                    items: ['name', 'fatherName'].map((sortOption) {
+                      return DropdownMenuItem<String>(
+                        value: sortOption,
+                        child: Text(sortOption),
+                      );
+                    }).toList(),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16.0),
-              const Text('Others',
-                  style:
-                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8.0),
-              DropdownButton<String>(
-                value: _orderByName,
-                onChanged: (value) {
-                  setState(() {
-                    _orderByName = value!;
-                  });
-                },
-                items: ['name', 'fatherName'].map((sortOption) {
-                  return DropdownMenuItem<String>(
-                    value: sortOption,
-                    child: Text(sortOption),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Apply sorting and close bottom sheet
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Apply'),
-                ),
-              ),
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      setState(() {
+                        _orderByGender = orderByGender;
+                        _orderByName = orderByName;
+                      });
+                    },
+                    child: const Text('Apply'),
+                  ),
+                  const SizedBox(height: 8.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      setState(() {
+                        _orderByGender = "";
+                        _orderByName = "";
+                      });
+                    },
+                    child: const Text('Apply'),
+                  ),
+                ],
+              )
             ],
           ),
         );

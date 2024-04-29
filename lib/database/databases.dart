@@ -60,18 +60,18 @@ CREATE TABLE $classTable(
     final db = await instance.database;
 
     String orderBy = "";
-    if (gender == 'girl') {
+    if (gender == Gender.girl.name) {
       orderBy +=
-          "CASE ${StudentFields.gender} WHEN 'girl' THEN 0 WHEN 'boy' THEN 1 END, ";
-    } else if (gender == 'boy') {
+          "CASE ${StudentFields.gender} WHEN '${Gender.girl.name}' THEN 0 WHEN '${Gender.boy.name}' THEN 1 END, ";
+    } else if (gender == Gender.boy.name) {
       orderBy +=
-          "CASE ${StudentFields.gender} WHEN 'boy' THEN 0 WHEN 'girl' THEN 1 END, ";
+          "CASE ${StudentFields.gender} WHEN '${Gender.boy.name}' THEN 0 WHEN '${Gender.girl.name}' THEN 1 END, ";
     }
 
-    if (name == 'name') {
+    if (name == StudentFields.name) {
       orderBy +=
           "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
-    } else if (name == 'fathername') {
+    } else if (name == StudentFields.fatherName) {
       orderBy +=
           "${StudentFields.fatherName}, ${StudentFields.name} COLLATE NOCASE";
     } else {
