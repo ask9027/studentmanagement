@@ -327,6 +327,7 @@ class _HomePageState extends State<HomePage> {
                   setState(() {
                     _orderByName = value!.camelCase!;
                   });
+                  showSnack(context, value!.camelCase!);
                 },
                 items: ['Name', 'Father Name'].map((sortOption) {
                   return DropdownMenuItem<String>(
