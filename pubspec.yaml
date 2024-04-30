@@ -43,6 +43,7 @@ dependencies:
   pdf: any
   printing: any
   dropdown_textfield: any
+  toggle_switch: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

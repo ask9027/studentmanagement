@@ -24,6 +24,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     data:
         const DropDownValueModel(name: "Select Gender", value: "Select Gender"),
   );
+  SingleValueDropDownController classCont = SingleValueDropDownController(
+    data: const DropDownValueModel(name: "Select Class", value: "Select Class"),
+  );
   bool isBtnEnable = false;
 
   @override
@@ -32,9 +35,15 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       nameCont.text = widget.student!.name;
       fNameCont.text = widget.student!.fatherName;
       genderCont = SingleValueDropDownController(
-          data: DropDownValueModel(
-              name: widget.student!.gender.toString(),
-              value: widget.student!.gender.toString()));
+        data: DropDownValueModel(
+            name: widget.student!.gender.toString(),
+            value: widget.student!.gender.toString()),
+      );
+      classCont = SingleValueDropDownController(
+        data: DropDownValueModel(
+            name: widget.student!.className.toString(),
+            value: widget.student!.className.toString()),
+      );
     }
     super.initState();
   }
@@ -43,7 +52,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     setState(() {
       if (nameCont.text.toString().isNotEmpty &&
           fNameCont.text.toString().isNotEmpty &&
-          !genderCont.dropDownValue!.name.contains("Select Gender")) {
+          !genderCont.dropDownValue!.name.contains("Select Gender") &&
+          !genderCont.dropDownValue!.name.contains("Select Class")) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -56,6 +66,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     nameCont.dispose();
     fNameCont.dispose();
     genderCont.dispose();
+    classCont.dispose();
     super.dispose();
   }
 
@@ -187,9 +198,39 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               onChanged: (value) {
                 checkFields();
               },
+              dropDownList: [
+                DropDownValueModel(
+                    name: Gender.boy.name, value: Gender.boy.name),
+                DropDownValueModel(
+                    name: Gender.girl.name, value: Gender.girl.name),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            DropDownTextField(
+              enableSearch: false,
+              clearOption: false,
+              controller: classCont,
+              textFieldDecoration: const InputDecoration(
+                label: Text("Class"),
+              ),
+              onChanged: (value) {
+                checkFields();
+              },
               dropDownList: const [
-                DropDownValueModel(name: "boy", value: "boy"),
-                DropDownValueModel(name: "girl", value: "girl"),
+                DropDownValueModel(name: "1st", value: "1st"),
+                DropDownValueModel(name: "2nd", value: "2nd"),
+                DropDownValueModel(name: "3rd", value: "3rd"),
+                DropDownValueModel(name: "4th", value: "4th"),
+                DropDownValueModel(name: "5th", value: "5th"),
+                DropDownValueModel(name: "6th", value: "6th"),
+                DropDownValueModel(name: "7th", value: "7th"),
+                DropDownValueModel(name: "8th", value: "8th"),
+                DropDownValueModel(name: "9th", value: "9th"),
+                DropDownValueModel(name: "10th", value: "10th"),
+                DropDownValueModel(name: "11th", value: "11th"),
+                DropDownValueModel(name: "12th", value: "12th"),
               ],
             ),
             const SizedBox(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
@@ -296,75 +297,74 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return Container(
           padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              Column(
-                children: [
-                  const Text('Gender',
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8.0),
-                  DropdownButton<String>(
-                    value: orderByGender,
-                    onChanged: (value) {
-                      setState(() {
-                        orderByGender = value!;
-                      });
-                    },
-                    items: ['boy', 'girl'].map((gender) {
-                      return DropdownMenuItem<String>(
-                        value: gender,
-                        child: Text(gender),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 16.0),
-                  const Text('Others',
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8.0),
-                  DropdownButton<String>(
-                    value: orderByName,
-                    onChanged: (value) {
-                      setState(() {
-                        orderByName = value!;
-                      });
-                    },
-                    items: ['name', 'fatherName'].map((sortOption) {
-                      return DropdownMenuItem<String>(
-                        value: sortOption,
-                        child: Text(sortOption),
-                      );
-                    }).toList(),
-                  ),
+              const Text('Sort Student List',
+                  style:
+                      TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16.0),
+              ToggleSwitch(
+                totalSwitches: 3,
+                labels: [
+                  Gender.boy.name.capitalizeFirst!,
+                  Gender.girl.name.capitalizeFirst!,
+                  "Clear",
                 ],
+                icons: const [
+                  Icons.male,
+                  Icons.female,
+                  Icons.clear,
+                ],
+                onToggle: (index) {
+                  setState(() {
+                    if (index == 0) {
+                      orderByGender = Gender.boy.name;
+                    } else if (index == 1) {
+                      orderByGender = Gender.girl.name;
+                    } else if (index == 2) {
+                      orderByGender = "";
+                    }
+                  });
+                },
               ),
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() {
-                        _orderByGender = orderByGender;
-                        _orderByName = orderByName;
-                      });
-                    },
-                    child: const Text('Apply'),
-                  ),
-                  const SizedBox(height: 8.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      setState(() {
-                        _orderByGender = "";
-                        _orderByName = "";
-                      });
-                    },
-                    child: const Text('Clear Order'),
-                  ),
+              const SizedBox(height: 8.0),
+              ToggleSwitch(
+                totalSwitches: 3,
+                labels: [
+                  StudentFields.name.capitalizeFirst!,
+                  StudentFields.fatherName.capitalizeFirst!,
+                  "Clear",
                 ],
-              )
+                icons: const [
+                  Icons.person,
+                  Icons.person_4,
+                  Icons.clear,
+                ],
+                onToggle: (index) {
+                  setState(() {
+                    if (index == 0) {
+                      orderByName = StudentFields.name;
+                    } else if (index == 1) {
+                      orderByName = StudentFields.fatherName;
+                    } else if (index == 2) {
+                      orderByName = "";
+                    }
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      _orderByGender = orderByGender;
+                      _orderByName = orderByName;
+                    });
+                  },
+                  child: const Text('Apply'),
+                ),
+              ),
             ],
           ),
         );
