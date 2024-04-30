@@ -198,11 +198,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               onChanged: (value) {
                 checkFields();
               },
-              dropDownList: [
-                DropDownValueModel(
-                    name: Gender.boy.name, value: Gender.boy.name),
-                DropDownValueModel(
-                    name: Gender.girl.name, value: Gender.girl.name),
+              dropDownList: const [
+                DropDownValueModel(name: Gender.boy, value: Gender.boy),
+                DropDownValueModel(name: Gender.girl, value: Gender.girl),
               ],
             ),
             const SizedBox(
@@ -219,18 +217,18 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                 checkFields();
               },
               dropDownList: const [
-                DropDownValueModel(name: "1st", value: "1st"),
-                DropDownValueModel(name: "2nd", value: "2nd"),
-                DropDownValueModel(name: "3rd", value: "3rd"),
-                DropDownValueModel(name: "4th", value: "4th"),
-                DropDownValueModel(name: "5th", value: "5th"),
-                DropDownValueModel(name: "6th", value: "6th"),
-                DropDownValueModel(name: "7th", value: "7th"),
-                DropDownValueModel(name: "8th", value: "8th"),
-                DropDownValueModel(name: "9th", value: "9th"),
-                DropDownValueModel(name: "10th", value: "10th"),
-                DropDownValueModel(name: "11th", value: "11th"),
-                DropDownValueModel(name: "12th", value: "12th"),
+                DropDownValueModel(name: Class.first, value: Class.first),
+                DropDownValueModel(name: Class.second, value: Class.second),
+                DropDownValueModel(name: Class.third, value: Class.third),
+                DropDownValueModel(name: Class.fourth, value: Class.fourth),
+                DropDownValueModel(name: Class.fifth, value: Class.fifth),
+                DropDownValueModel(name: Class.sixth, value: Class.sixth),
+                DropDownValueModel(name: Class.eighth, value: Class.seventh),
+                DropDownValueModel(name: Class.eighth, value: Class.eighth),
+                DropDownValueModel(name: Class.ninth, value: Class.ninth),
+                DropDownValueModel(name: Class.tenth, value: Class.tenth),
+                DropDownValueModel(name: Class.eleventh, value: Class.eleventh),
+                DropDownValueModel(name: Class.twelfth, value: Class.twelfth),
               ],
             ),
             const SizedBox(

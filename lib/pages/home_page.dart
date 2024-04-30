@@ -193,7 +193,12 @@ class _HomePageState extends State<HomePage> {
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 5, horizontal: 16),
                                       decoration: BoxDecoration(
-                                        color: Colors.deepPurple.shade50,
+                                        color: snapshot.data!
+                                                    .elementAt(index)
+                                                    .gender ==
+                                                Gender.boy
+                                            ? Colors.deepPurple.shade100
+                                            : Colors.pink.shade100,
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                       child: InkWell(
@@ -303,54 +308,70 @@ class _HomePageState extends State<HomePage> {
                   style:
                       TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16.0),
-              ToggleSwitch(
-                totalSwitches: 3,
-                labels: [
-                  Gender.boy.name.capitalizeFirst!,
-                  Gender.girl.name.capitalizeFirst!,
-                  "Clear",
-                ],
-                icons: const [
-                  Icons.male,
-                  Icons.female,
-                  Icons.clear,
-                ],
-                onToggle: (index) {
-                  setState(() {
-                    if (index == 0) {
-                      orderByGender = Gender.boy.name;
-                    } else if (index == 1) {
-                      orderByGender = Gender.girl.name;
-                    } else if (index == 2) {
-                      orderByGender = "";
-                    }
-                  });
-                },
+              Expanded(
+                child: ToggleSwitch(
+                  cornerRadius: 50.0,
+                  initialLabelIndex: _orderByGender == Gender.boy
+                      ? 0
+                      : _orderByGender == Gender.girl
+                          ? 1
+                          : 2,
+                  totalSwitches: 3,
+                  labels: [
+                    Gender.boy.capitalizeFirst!,
+                    Gender.girl.capitalizeFirst!,
+                    "Clear",
+                  ],
+                  icons: const [
+                    Icons.male,
+                    Icons.female,
+                    Icons.clear,
+                  ],
+                  onToggle: (index) {
+                    setState(() {
+                      if (index == 0) {
+                        orderByGender = Gender.boy;
+                      } else if (index == 1) {
+                        orderByGender = Gender.girl;
+                      } else if (index == 2) {
+                        orderByGender = "";
+                      }
+                    });
+                  },
+                ),
               ),
               const SizedBox(height: 8.0),
-              ToggleSwitch(
-                totalSwitches: 3,
-                labels: [
-                  StudentFields.name.capitalizeFirst!,
-                  StudentFields.fatherName.capitalizeFirst!,
-                  "Clear",
-                ],
-                icons: const [
-                  Icons.person,
-                  Icons.person_4,
-                  Icons.clear,
-                ],
-                onToggle: (index) {
-                  setState(() {
-                    if (index == 0) {
-                      orderByName = StudentFields.name;
-                    } else if (index == 1) {
-                      orderByName = StudentFields.fatherName;
-                    } else if (index == 2) {
-                      orderByName = "";
-                    }
-                  });
-                },
+              Expanded(
+                child: ToggleSwitch(
+                  cornerRadius: 50.0,
+                  initialLabelIndex: _orderByName == StudentFields.name
+                      ? 0
+                      : _orderByName == StudentFields.fatherName
+                          ? 1
+                          : 2,
+                  totalSwitches: 3,
+                  labels: [
+                    StudentFields.name.capitalizeFirst!,
+                    StudentFields.fatherName.capitalizeFirst!,
+                    "Clear",
+                  ],
+                  icons: const [
+                    Icons.person,
+                    Icons.person_4,
+                    Icons.clear,
+                  ],
+                  onToggle: (index) {
+                    setState(() {
+                      if (index == 0) {
+                        orderByName = StudentFields.name;
+                      } else if (index == 1) {
+                        orderByName = StudentFields.fatherName;
+                      } else if (index == 2) {
+                        orderByName = "";
+                      }
+                    });
+                  },
+                ),
               ),
               const SizedBox(height: 16.0),
               Center(

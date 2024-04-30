@@ -16,9 +16,24 @@ class StudentFields {
   ];
 }
 
-enum Gender {
-  girl,
-  boy,
+class Gender {
+  static const String girl = 'girl';
+  static const String boy = 'boy';
+}
+
+class Class {
+  static const String first = '1st';
+  static const String second = '2nd';
+  static const String third = '3rd';
+  static const String fourth = '4th';
+  static const String fifth = '5th';
+  static const String sixth = '6th';
+  static const String seventh = '7th';
+  static const String eighth = '8th';
+  static const String ninth = '9th';
+  static const String tenth = '10th';
+  static const String eleventh = '11th';
+  static const String twelfth = '12th';
 }
 
 class Student {
