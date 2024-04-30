@@ -7,11 +7,10 @@ import '../extensions.dart';
 import '../widgets.dart';
 
 class AddUpdateStudent extends StatefulWidget {
-  const AddUpdateStudent({super.key, this.isAdd, this.student, this.className});
+  const AddUpdateStudent({super.key, this.isAdd, this.student});
 
   final bool? isAdd;
   final Student? student;
-  final String? className;
 
   @override
   State<AddUpdateStudent> createState() => _AddUpdateStudentState();
@@ -36,13 +35,15 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       fNameCont.text = widget.student!.fatherName;
       genderCont = SingleValueDropDownController(
         data: DropDownValueModel(
-            name: widget.student!.gender.toString(),
-            value: widget.student!.gender.toString()),
+          name: widget.student!.gender.toString(),
+          value: widget.student!.gender.toString(),
+        ),
       );
       classCont = SingleValueDropDownController(
         data: DropDownValueModel(
-            name: widget.student!.className.toString(),
-            value: widget.student!.className.toString()),
+          name: widget.student!.className.toString(),
+          value: widget.student!.className.toString(),
+        ),
       );
     }
     super.initState();
@@ -53,7 +54,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       if (nameCont.text.toString().isNotEmpty &&
           fNameCont.text.toString().isNotEmpty &&
           !genderCont.dropDownValue!.name.contains("Select Gender") &&
-          !genderCont.dropDownValue!.name.contains("Select Class")) {
+          !classCont.dropDownValue!.name.contains("Select Class")) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -243,7 +244,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               Student(
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
-                                className: widget.className!,
+                                className: classCont.dropDownValue!.value,
                                 gender: genderCont.dropDownValue!.value,
                               ),
                             )
@@ -265,7 +266,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 id: widget.student!.id,
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
-                                className: widget.className!,
+                                className: classCont.dropDownValue!.value,
                                 gender: genderCont.dropDownValue!.value,
                               ),
                             )
