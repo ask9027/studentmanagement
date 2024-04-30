@@ -9,7 +9,6 @@ import '../database/models.dart';
 import '../pages/pdf_and_printing.dart';
 import '../widgets.dart';
 import 'add_update.dart';
-import 'setup_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
