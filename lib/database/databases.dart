@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:studentmanagement/database/models.dart';
+
+import '../database/models.dart';
 
 class StudentDBHelper {
   static final StudentDBHelper instance = StudentDBHelper._init();
@@ -30,7 +31,7 @@ CREATE TABLE $studentTable(
   ${StudentFields.name} $textType,
   ${StudentFields.fatherName} $textType,
   ${StudentFields.className} $textType,
-  ${StudentFields.rollNumber} $textType
+  ${StudentFields.gender} $textType
 )
 """);
     await db.execute("""
@@ -55,10 +56,29 @@ CREATE TABLE $classTable(
     return classModel.copy(id: id);
   }
 
-  Future<List<Student>> getAllStudents() async {
+  Future<List<Student>> getAllStudents(String gender, String name) async {
     final db = await instance.database;
-    const orderBy =
-        "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+
+    String orderBy = "";
+    if (gender == Gender.girl) {
+      orderBy +=
+          "CASE ${StudentFields.gender} WHEN '${Gender.girl}' THEN 0 WHEN '${Gender.boy}' THEN 1 END, ";
+    } else if (gender == Gender.boy) {
+      orderBy +=
+          "CASE ${StudentFields.gender} WHEN '${Gender.boy}' THEN 0 WHEN '${Gender.girl}' THEN 1 END, ";
+    }
+
+    if (name == StudentFields.name) {
+      orderBy +=
+          "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+    } else if (name == StudentFields.fatherName) {
+      orderBy +=
+          "${StudentFields.fatherName}, ${StudentFields.name} COLLATE NOCASE";
+    } else {
+      orderBy +=
+          "${StudentFields.name}, ${StudentFields.fatherName} COLLATE NOCASE";
+    }
+
     final result = await db.query(studentTable, orderBy: orderBy);
     return result.map((json) => Student.fromJson(json)).toList();
   }

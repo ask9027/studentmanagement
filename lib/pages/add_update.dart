@@ -1,16 +1,17 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:studentmanagement/extensions.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/databases.dart';
 import '../database/models.dart';
+import '../extensions.dart';
 import '../widgets.dart';
 
 class AddUpdateStudent extends StatefulWidget {
-  const AddUpdateStudent({super.key, this.isAdd, this.student, this.className});
+  const AddUpdateStudent({super.key, this.isAdd, this.student});
+
   final bool? isAdd;
   final Student? student;
-  final String? className;
 
   @override
   State<AddUpdateStudent> createState() => _AddUpdateStudentState();
@@ -19,7 +20,11 @@ class AddUpdateStudent extends StatefulWidget {
 class _AddUpdateStudentState extends State<AddUpdateStudent> {
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController fNameCont = TextEditingController();
-  final TextEditingController rollNCont = TextEditingController();
+  String genderCont = "";
+  int _toggleIndex = -1;
+  SingleValueDropDownController classCont = SingleValueDropDownController(
+    data: const DropDownValueModel(name: "Select Class", value: "Select Class"),
+  );
   bool isBtnEnable = false;
 
   @override
@@ -27,7 +32,14 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     if (!widget.isAdd!) {
       nameCont.text = widget.student!.name;
       fNameCont.text = widget.student!.fatherName;
-      rollNCont.text = widget.student!.rollNumber;
+      genderCont = widget.student!.gender.toString();
+      _toggleIndex = Gender.values.indexOf(genderCont);
+      classCont = SingleValueDropDownController(
+        data: DropDownValueModel(
+          name: widget.student!.className.toString(),
+          value: widget.student!.className.toString(),
+        ),
+      );
     }
     super.initState();
   }
@@ -36,7 +48,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     setState(() {
       if (nameCont.text.toString().isNotEmpty &&
           fNameCont.text.toString().isNotEmpty &&
-          rollNCont.text.toString().isNotEmpty) {
+          genderCont.isNotEmpty &&
+          !classCont.dropDownValue!.name.contains("Select Class")) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -48,7 +61,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   void dispose() {
     nameCont.dispose();
     fNameCont.dispose();
-    rollNCont.dispose();
+    classCont.dispose();
     super.dispose();
   }
 
@@ -168,18 +181,57 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
-            TextFormField(
-              controller: rollNCont,
-              decoration: const InputDecoration(
-                hintText: "Enter Roll Number",
-                label: Text("Roll Number"),
+            ToggleSwitch(
+              initialLabelIndex: _toggleIndex,
+              totalSwitches: 2,
+              labels: Gender.values,
+              changeOnTap: true,
+              animate: true,
+              inactiveBgColor: Colors.purple.shade50,
+              animationDuration: 150,
+              cornerRadius: 16,
+              onToggle: (index) {
+                setState(() {
+                  if (index == _toggleIndex) {
+                    _toggleIndex = -1;
+                    genderCont = "";
+                  } else {
+                    _toggleIndex = index!;
+                    genderCont = Gender.values[index];
+                  }
+                  checkFields();
+                });
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            DropDownTextField(
+              enableSearch: false,
+              clearOption: false,
+              controller: classCont,
+              textFieldDecoration: const InputDecoration(
+                label: Text("Class"),
               ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.done,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (value) {
+                checkFields();
+              },
+              dropDownList: const [
+                DropDownValueModel(name: Class.first, value: Class.first),
+                DropDownValueModel(name: Class.second, value: Class.second),
+                DropDownValueModel(name: Class.third, value: Class.third),
+                DropDownValueModel(name: Class.fourth, value: Class.fourth),
+                DropDownValueModel(name: Class.fifth, value: Class.fifth),
+                DropDownValueModel(name: Class.sixth, value: Class.sixth),
+                DropDownValueModel(name: Class.eighth, value: Class.seventh),
+                DropDownValueModel(name: Class.eighth, value: Class.eighth),
+                DropDownValueModel(name: Class.ninth, value: Class.ninth),
+                DropDownValueModel(name: Class.tenth, value: Class.tenth),
+                DropDownValueModel(name: Class.eleventh, value: Class.eleventh),
+                DropDownValueModel(name: Class.twelfth, value: Class.twelfth),
+              ],
             ),
             const SizedBox(
               height: 30,
@@ -193,8 +245,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               Student(
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
-                                className: widget.className!,
-                                rollNumber: rollNCont.text,
+                                className: classCont.dropDownValue!.value,
+                                gender: genderCont,
                               ),
                             )
                             .onError(
@@ -215,8 +267,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 id: widget.student!.id,
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
-                                className: widget.className!,
-                                rollNumber: rollNCont.text,
+                                className: classCont.dropDownValue!.value,
+                                gender: genderCont,
                               ),
                             )
                             .onError(

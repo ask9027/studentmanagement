@@ -2,19 +2,56 @@
 const studentTable = "students";
 
 class StudentFields {
+  static const String id = "_id";
+  static const String name = "name";
+  static const String fatherName = "fatherName";
+  static const String className = "className";
+  static const String gender = "gender";
   static final List<String> values = [
     id,
     name,
     fatherName,
     className,
-    rollNumber,
+    gender,
   ];
+}
 
-  static const String id = "_id";
-  static const String name = "name";
-  static const String fatherName = "fatherName";
-  static const String className = "className";
-  static const String rollNumber = "rollNumber";
+class Gender {
+  static const String boy = 'boy';
+  static const String girl = 'girl';
+  static final List<String> values = [
+    boy,
+    girl,
+  ];
+}
+
+class Class {
+  static const String first = '1st';
+  static const String second = '2nd';
+  static const String third = '3rd';
+  static const String fourth = '4th';
+  static const String fifth = '5th';
+  static const String sixth = '6th';
+  static const String seventh = '7th';
+  static const String eighth = '8th';
+  static const String ninth = '9th';
+  static const String tenth = '10th';
+  static const String eleventh = '11th';
+  static const String twelfth = '12th';
+  static final List<String> values = [
+    first,
+    second,
+    third,
+    fourth,
+    fifth,
+    sixth,
+    seventh,
+    eighth,
+    ninth,
+    tenth,
+    eleventh,
+    twelfth,
+  ];
 }
 
 class Student {
@@ -22,14 +59,14 @@ class Student {
   final String name;
   final String fatherName;
   final String className;
-  final String rollNumber;
+  final String gender;
 
   const Student({
     this.id,
     required this.name,
     required this.fatherName,
     required this.className,
-    required this.rollNumber,
+    required this.gender,
   });
 
   Student copy({
@@ -37,14 +74,14 @@ class Student {
     String? name,
     String? fatherName,
     String? className,
-    String? rollNumber,
+    String? gender,
   }) =>
       Student(
         id: id ?? this.id,
         name: name ?? this.name,
         fatherName: fatherName ?? this.fatherName,
         className: className ?? this.className,
-        rollNumber: rollNumber ?? this.rollNumber,
+        gender: gender ?? this.gender,
       );
 
   static Student fromJson(Map<String, Object?> json) => Student(
@@ -52,7 +89,7 @@ class Student {
         name: json[StudentFields.name] as String,
         fatherName: json[StudentFields.fatherName] as String,
         className: json[StudentFields.className] as String,
-        rollNumber: json[StudentFields.rollNumber] as String,
+        gender: json[StudentFields.gender] as String,
       );
 
   Map<String, Object?> toJson() => {
@@ -60,7 +97,7 @@ class Student {
         StudentFields.name: name,
         StudentFields.fatherName: fatherName,
         StudentFields.className: className,
-        StudentFields.rollNumber: rollNumber,
+        StudentFields.gender: gender,
       };
 }
 
@@ -69,7 +106,7 @@ class Student {
 const classTable = "classTable";
 
 class ClassFields {
-  static final List<String> value = [
+  static final List<String> values = [
     id,
     className,
     classTeacher,

@@ -1,8 +1,8 @@
-import 'package:studentmanagement/database/models.dart';
-
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
+
+import '../database/models.dart';
 
 class PdfAndPrinting {
   Future<void> createPdf([List<Student>? data]) async {
@@ -54,7 +54,7 @@ class PdfAndPrinting {
                               ),
                             ),
                             pw.Text(
-                              "Roll No. ${student.rollNumber}",
+                              "Gender. ${student.gender}",
                               style: pw.TextStyle(
                                 color: const PdfColor.fromInt(0xFF000000),
                                 fontWeight: pw.FontWeight.bold,
