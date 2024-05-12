@@ -20,7 +20,9 @@ class PdfAndPrinting {
                     padding: const pw.EdgeInsets.all(6),
                     margin: const pw.EdgeInsets.all(6),
                     decoration: pw.BoxDecoration(
-                      color: const PdfColor.fromInt(0xFFEDE7F6),
+                      color: data.elementAt(index).gender == Gender.boy
+                          ? const PdfColor.fromInt(0xFFEDE7F6)
+                          : const PdfColor.fromInt(0xFFFCE4FC),
                       borderRadius: pw.BorderRadius.circular(16),
                     ),
                     child: data.map(
@@ -38,7 +40,7 @@ class PdfAndPrinting {
                                   ),
                                 ),
                                 pw.Text(
-                                  "  ${student.name}",
+                                  ":  ${student.name}",
                                   style: pw.TextStyle(
                                     color: const PdfColor.fromInt(0xFF448AFF),
                                     fontWeight: pw.FontWeight.bold,
@@ -47,14 +49,42 @@ class PdfAndPrinting {
                               ],
                             ),
                             pw.Text(
-                              "Class. ${student.className}",
+                              "Father's Name : ${student.fatherName}",
                               style: pw.TextStyle(
                                 color: const PdfColor.fromInt(0xFF000000),
                                 fontWeight: pw.FontWeight.bold,
                               ),
                             ),
                             pw.Text(
-                              "Gender. ${student.gender}",
+                              "DOB : ${student.dob}",
+                              style: pw.TextStyle(
+                                color: const PdfColor.fromInt(0xFF000000),
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              "PEN Number : ${student.penNumber}",
+                              style: pw.TextStyle(
+                                color: const PdfColor.fromInt(0xFF000000),
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              "S.R. Number : ${student.srNumber}",
+                              style: pw.TextStyle(
+                                color: const PdfColor.fromInt(0xFF000000),
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              "Class : ${student.className}",
+                              style: pw.TextStyle(
+                                color: const PdfColor.fromInt(0xFF000000),
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text(
+                              "Gender : ${student.gender}",
                               style: pw.TextStyle(
                                 color: const PdfColor.fromInt(0xFF000000),
                                 fontWeight: pw.FontWeight.bold,

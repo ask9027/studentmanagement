@@ -6,12 +6,18 @@ class StudentFields {
   static const String name = "name";
   static const String fatherName = "fatherName";
   static const String className = "className";
+  static const String dob = "dob";
+  static const String penNumber = "penNumber";
+  static const String srNumber = "srNumber";
   static const String gender = "gender";
   static final List<String> values = [
     id,
     name,
     fatherName,
     className,
+    dob,
+    penNumber,
+    srNumber,
     gender,
   ];
 }
@@ -59,6 +65,9 @@ class Student {
   final String name;
   final String fatherName;
   final String className;
+  final String dob;
+  final String penNumber;
+  final String srNumber;
   final String gender;
 
   const Student({
@@ -66,6 +75,9 @@ class Student {
     required this.name,
     required this.fatherName,
     required this.className,
+    required this.dob,
+    required this.penNumber,
+    required this.srNumber,
     required this.gender,
   });
 
@@ -74,6 +86,9 @@ class Student {
     String? name,
     String? fatherName,
     String? className,
+    String? dob,
+    String? penNumber,
+    String? srNumber,
     String? gender,
   }) =>
       Student(
@@ -81,6 +96,9 @@ class Student {
         name: name ?? this.name,
         fatherName: fatherName ?? this.fatherName,
         className: className ?? this.className,
+        dob: dob ?? this.dob,
+        penNumber: penNumber ?? this.penNumber,
+        srNumber: srNumber ?? this.srNumber,
         gender: gender ?? this.gender,
       );
 
@@ -89,6 +107,9 @@ class Student {
         name: json[StudentFields.name] as String,
         fatherName: json[StudentFields.fatherName] as String,
         className: json[StudentFields.className] as String,
+        dob: json[StudentFields.dob] as String,
+        penNumber: json[StudentFields.penNumber] as String,
+        srNumber: json[StudentFields.srNumber] as String,
         gender: json[StudentFields.gender] as String,
       );
 
@@ -97,6 +118,9 @@ class Student {
         StudentFields.name: name,
         StudentFields.fatherName: fatherName,
         StudentFields.className: className,
+        StudentFields.dob: dob,
+        StudentFields.penNumber: penNumber,
+        StudentFields.srNumber: srNumber,
         StudentFields.gender: gender,
       };
 }

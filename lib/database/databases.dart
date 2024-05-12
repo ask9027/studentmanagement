@@ -31,6 +31,9 @@ CREATE TABLE $studentTable(
   ${StudentFields.name} $textType,
   ${StudentFields.fatherName} $textType,
   ${StudentFields.className} $textType,
+  ${StudentFields.dob} $textType,
+  ${StudentFields.penNumber} $textType,
+  ${StudentFields.srNumber} $textType,
   ${StudentFields.gender} $textType
 )
 """);

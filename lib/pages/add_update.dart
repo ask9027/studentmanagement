@@ -20,6 +20,9 @@ class AddUpdateStudent extends StatefulWidget {
 class _AddUpdateStudentState extends State<AddUpdateStudent> {
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController fNameCont = TextEditingController();
+  final TextEditingController dobCont = TextEditingController();
+  final TextEditingController penNumberCont = TextEditingController();
+  final TextEditingController srNumberCont = TextEditingController();
   String genderCont = "";
   int _toggleIndex = -1;
   SingleValueDropDownController classCont = SingleValueDropDownController(
@@ -32,6 +35,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     if (!widget.isAdd!) {
       nameCont.text = widget.student!.name;
       fNameCont.text = widget.student!.fatherName;
+      dobCont.text = widget.student!.dob;
+      penNumberCont.text = widget.student!.penNumber;
+      srNumberCont.text = widget.student!.srNumber;
       genderCont = widget.student!.gender.toString();
       _toggleIndex = Gender.values.indexOf(genderCont);
       classCont = SingleValueDropDownController(
@@ -48,6 +54,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     setState(() {
       if (nameCont.text.toString().isNotEmpty &&
           fNameCont.text.toString().isNotEmpty &&
+          dobCont.text.toString().isNotEmpty &&
+          penNumberCont.text.toString().isNotEmpty &&
+          srNumberCont.text.toString().isNotEmpty &&
           genderCont.isNotEmpty &&
           !classCont.dropDownValue!.name.contains("Select Class")) {
         isBtnEnable = true;
@@ -61,6 +70,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   void dispose() {
     nameCont.dispose();
     fNameCont.dispose();
+    dobCont.dispose();
+    penNumberCont.dispose();
+    srNumberCont.dispose();
     classCont.dispose();
     super.dispose();
   }
@@ -181,6 +193,42 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              controller: dobCont,
+              decoration: const InputDecoration(
+                hintText: "Enter DOB(yyyy-mm-dd)",
+                label: Text("Date Of Birth"),
+              ),
+              onChanged: (value) => checkFields(),
+              textInputAction: TextInputAction.next,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              controller: penNumberCont,
+              decoration: const InputDecoration(
+                hintText: "Enter PEN Number",
+                label: Text("PEN Number"),
+              ),
+              onChanged: (value) => checkFields(),
+              textInputAction: TextInputAction.next,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFormField(
+              controller: srNumberCont,
+              decoration: const InputDecoration(
+                hintText: "Enter SR Number",
+                label: Text("SR Number"),
+              ),
+              onChanged: (value) => checkFields(),
+              textInputAction: TextInputAction.next,
+            ),
+            const SizedBox(
               height: 10,
             ),
             ToggleSwitch(
@@ -245,6 +293,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               Student(
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
+                                dob: dobCont.text.trim(),
+                                penNumber: penNumberCont.text.trim(),
+                                srNumber: srNumberCont.text.trim(),
                                 className: classCont.dropDownValue!.value,
                                 gender: genderCont,
                               ),
@@ -267,6 +318,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 id: widget.student!.id,
                                 name: nameCont.text.toTitleCase().trim(),
                                 fatherName: fNameCont.text.toTitleCase().trim(),
+                                dob: dobCont.text.trim(),
+                                penNumber: penNumberCont.text.trim(),
+                                srNumber: srNumberCont.text.trim(),
                                 className: classCont.dropDownValue!.value,
                                 gender: genderCont,
                               ),
