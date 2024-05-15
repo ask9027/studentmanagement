@@ -45,6 +45,9 @@ dependencies:
   dropdown_textfield: any
   toggle_switch: any
   shared_preferences: any
+  date_picker_plus: any
+  intl: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

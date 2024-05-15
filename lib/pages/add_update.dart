@@ -1,5 +1,8 @@
+import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/databases.dart';
@@ -26,9 +29,13 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   String genderCont = "";
   int _toggleIndex = -1;
   SingleValueDropDownController classCont = SingleValueDropDownController(
-    data: const DropDownValueModel(name: "Select Class", value: "Select Class"),
+    data: const DropDownValueModel(
+      name: "Select Class",
+      value: "Select Class",
+    ),
   );
   bool isBtnEnable = false;
+  final DateFormat format = DateFormat("yyyy-MM-dd");
 
   @override
   void initState() {
@@ -82,7 +89,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            widget.isAdd! ? "Add Student" : "Update ${widget.student!.name}"),
+          widget.isAdd! ? "Add Student" : "Update ${widget.student!.name}",
+        ),
         actions: widget.isAdd!
             ? null
             : [
@@ -103,33 +111,36 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               ),
                             ),
                             content: RichText(
-                                text: TextSpan(children: [
-                              const TextSpan(
-                                text: "Do You want to delete",
-                                style: TextStyle(color: Colors.black),
+                              text: TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: "Do You want to delete",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  TextSpan(
+                                    text: " `${widget.student!.name}` ",
+                                    style: const TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: "?",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ],
                               ),
-                              TextSpan(
-                                text: " `${widget.student!.name}` ",
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                ),
-                              ),
-                              const TextSpan(
-                                text: "?",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ])),
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () async {
                                   await StudentDBHelper.instance
                                       .deleteStudent(widget.student!.id!)
-                                      .onError((error, stackTrace) => showSnack(
-                                            context,
-                                            error.toString(),
-                                          ));
+                                      .onError(
+                                        (error, stackTrace) => showSnack(
+                                          context,
+                                          error.toString(),
+                                        ),
+                                      );
                                   if (!context.mounted) return;
                                   Navigator.pop(context);
                                   Navigator.pop(context);
@@ -142,10 +153,11 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 ),
                               ),
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No")),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("No"),
+                              ),
                             ],
                           );
                         },
@@ -175,7 +187,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               controller: nameCont,
               decoration: const InputDecoration(
                 hintText: "Enter Name",
-                label: Text("Name"),
+                label: Text(
+                  "Name",
+                ),
               ),
               onChanged: (value) => checkFields(),
               textInputAction: TextInputAction.next,
@@ -187,7 +201,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               controller: fNameCont,
               decoration: const InputDecoration(
                 hintText: "Enter Father's Name",
-                label: Text("Father's Name"),
+                label: Text(
+                  "Father's Name",
+                ),
               ),
               onChanged: (value) => checkFields(),
               textInputAction: TextInputAction.next,
@@ -197,11 +213,35 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
             ),
             TextFormField(
               controller: dobCont,
-              decoration: const InputDecoration(
-                hintText: "Enter DOB(yyyy-mm-dd)",
-                label: Text("Date Of Birth"),
+              readOnly: true,
+              decoration: InputDecoration(
+                hintText: "Enter DOB(yyyy-MM-dd)",
+                label: const Text(
+                  "Date Of Birth",
+                ),
+                suffixIcon: IconButton(
+                  icon: const Icon(
+                    Icons.calendar_month,
+                  ),
+                  onPressed: () {
+                    showDatePickerDialog(
+                      context: context,
+                      maxDate: DateTime.now(),
+                      minDate: DateTime(1900),
+                      selectedDate: dobCont.text.isNotEmpty
+                          ? format.parse(dobCont.text)
+                          : DateTime.now(),
+                    ).then(
+                      (value) {
+                        setState(() {
+                          dobCont.text = format.format(value!);
+                          checkFields();
+                        });
+                      },
+                    );
+                  },
+                ),
               ),
-              onChanged: (value) => checkFields(),
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(
@@ -209,9 +249,18 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
             ),
             TextFormField(
               controller: penNumberCont,
-              decoration: const InputDecoration(
+              maxLength: 11,
+              keyboardType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              decoration: InputDecoration(
                 hintText: "Enter PEN Number",
-                label: Text("PEN Number"),
+                helperText: "digits only",
+                counter: Text(
+                  "${penNumberCont.text.length}",
+                ),
+                label: const Text("PEN Number"),
               ),
               onChanged: (value) => checkFields(),
               textInputAction: TextInputAction.next,
