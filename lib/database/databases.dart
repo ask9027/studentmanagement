@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../database/models.dart';
@@ -17,8 +14,7 @@ class StudentDBHelper {
   }
 
   Future<Database> _initDB(String dbPath) async {
-    final Directory? directory = await getExternalStorageDirectory();
-    final path = join(directory!.path, dbPath);
+    final path = join(await getDatabasesPath(), dbPath);
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
 
