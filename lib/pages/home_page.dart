@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studentmanagement/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/databases.dart';
@@ -38,13 +39,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: FutureBuilder<List<Student>>(
         future: StudentDBHelper.instance
-            .getAllStudents(_orderByGender, _orderByName)
-            .onError((error, stackTrace) => showSnack(
-                  context,
-                  error.toString(),
-                )),
+            .getAllStudents(_orderByGender, _orderByName),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: Text(
                 "Loading...",
@@ -54,186 +51,201 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             );
-          }
-          return snapshot.data!.isEmpty
-              ? const Center(
-                  child: Text(
-                    "No Student Found",
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+          } else if (snapshot.hasError) {
+            showSnack("While getting Data:\n${snapshot.error}");
+            return const Center(
+              child: Text(
+                "Error eccurred",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          } else if (!snapshot.hasData ||
+              snapshot.data == null ||
+              snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text(
+                "No Student Found",
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          } else {
+            final students = snapshot.data!;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
                   ),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Student List",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Row(
                         children: [
-                          const Text(
-                            "Student List",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          IconButton(
+                              onPressed: () => _openSortOptions(context),
+                              icon: const Icon(
+                                Icons.sort,
+                                color: Colors.blueAccent,
+                              )),
+                          IconButton(
+                            onPressed: () {
+                              Get.snackbar(
+                                "Pdf Genrator",
+                                "Pdf creating...",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.red.shade400,
+                                colorText: Colors.white,
+                              );
+                              Timer(
+                                const Duration(seconds: 3),
+                                (() => PdfAndPrinting().createPdf(students)),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.picture_as_pdf,
+                              color: Colors.red,
                             ),
                           ),
-                          Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () => _openSortOptions(context),
-                                  icon: const Icon(
-                                    Icons.sort,
-                                    color: Colors.blueAccent,
-                                  )),
-                              IconButton(
-                                onPressed: () {
-                                  Get.snackbar(
-                                    "Pdf Genrator",
-                                    "Pdf creating...",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                    backgroundColor: Colors.red.shade400,
-                                    colorText: Colors.white,
-                                  );
-                                  Timer(
-                                    const Duration(seconds: 3),
-                                    (() => PdfAndPrinting()
-                                        .createPdf(snapshot.data!)),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: students.toList().length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 5),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: students.elementAt(index).gender == Gender.boy
+                              ? Colors.deepPurple.shade50
+                              : Colors.pink.shade50,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: InkWell(
+                          onTap: () {
+                            navigatorKey.currentState?.push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return AddUpdateStudent(
+                                    isAdd: false,
+                                    student: students.elementAt(index),
                                   );
                                 },
-                                icon: const Icon(
-                                  Icons.picture_as_pdf,
-                                  color: Colors.red,
-                                ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.toList().length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 5),
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 16),
-                            decoration: BoxDecoration(
-                              color: snapshot.data!.elementAt(index).gender ==
-                                      Gender.boy
-                                  ? Colors.deepPurple.shade50
-                                  : Colors.pink.shade50,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return AddUpdateStudent(
-                                        isAdd: false,
-                                        student:
-                                            snapshot.data!.elementAt(index),
-                                      );
-                                    },
-                                  ),
-                                ).then((_) {
-                                  setState(() {});
-                                });
-                              },
-                              child: snapshot.data!.map(
-                                (student) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                            ).then((_) {
+                              setState(() {});
+                            });
+                          },
+                          child: students.map(
+                            (student) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "S.N. ${index + 1}",
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            ":  ${student.name}",
-                                            style: const TextStyle(
-                                              color: Colors.blueAccent,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                       Text(
-                                        "DOB : ${student.dob}",
+                                        "S.N. ${index + 1}",
                                         style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        "PEN Number : ${student.penNumber}",
+                                        ":  ${student.name}",
                                         style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "S.R. Number : ${student.srNumber}",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Class : ${student.className}",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Gender : ${student.gender}",
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                          color: Colors.blueAccent,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
-                                  );
-                                },
-                              ).elementAt(index),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                );
+                                  ),
+                                  Text(
+                                    "DOB : ${student.dob}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "PEN Number : ${student.penNumber}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "S.R. Number : ${student.srNumber}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Class : ${student.className}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Gender : ${student.gender}",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ).elementAt(index),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(
-            builder: (context) => const AddUpdateStudent(
-              isAdd: true,
-            ),
-          ))
-              .then((_) {
-            setState(() {});
-          });
+          final currentNavigatorState = navigatorKey.currentState;
+          if (currentNavigatorState != null) {
+            currentNavigatorState
+                .push(MaterialPageRoute(
+              builder: (context) => const AddUpdateStudent(
+                isAdd: true,
+              ),
+            ))
+                .then((_) {
+              setState(() {});
+            });
+          }
         },
         child: const Icon(Icons.add),
       ),
@@ -323,7 +335,7 @@ class _HomePageState extends State<HomePage> {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        navigatorKey.currentState?.pop();
                         setState(() {
                           _orderByGender = _genderIndex < 0
                               ? ""

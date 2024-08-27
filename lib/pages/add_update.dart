@@ -1,8 +1,8 @@
 import 'package:date_picker_plus/date_picker_plus.dart';
-import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:studentmanagement/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/databases.dart';
@@ -24,16 +24,13 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController fNameCont = TextEditingController();
   final TextEditingController dobCont = TextEditingController();
-  final TextEditingController penNumberCont = TextEditingController();
-  final TextEditingController srNumberCont = TextEditingController();
+  final TextEditingController penNumberCont =
+      TextEditingController(text: "00000000000");
+  final TextEditingController srNumberCont =
+      TextEditingController(text: "0000");
   String genderCont = "";
   int _toggleIndex = -1;
-  SingleValueDropDownController classCont = SingleValueDropDownController(
-    data: const DropDownValueModel(
-      name: "Select Class",
-      value: "Select Class",
-    ),
-  );
+  String classCont = "Select Class";
   bool isBtnEnable = false;
   final DateFormat format = DateFormat("yyyy-MM-dd");
 
@@ -47,12 +44,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       srNumberCont.text = widget.student!.srNumber;
       genderCont = widget.student!.gender.toString();
       _toggleIndex = Gender.values.indexOf(genderCont);
-      classCont = SingleValueDropDownController(
-        data: DropDownValueModel(
-          name: widget.student!.className.toString(),
-          value: widget.student!.className.toString(),
-        ),
-      );
+      classCont = widget.student!.className.toString();
     }
     super.initState();
   }
@@ -65,7 +57,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
           penNumberCont.text.toString().isNotEmpty &&
           srNumberCont.text.toString().isNotEmpty &&
           genderCont.isNotEmpty &&
-          !classCont.dropDownValue!.name.contains("Select Class")) {
+          !classCont.contains("Select Class")) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -80,7 +72,6 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
     dobCont.dispose();
     penNumberCont.dispose();
     srNumberCont.dispose();
-    classCont.dispose();
     super.dispose();
   }
 
@@ -137,13 +128,11 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                       .deleteStudent(widget.student!.id!)
                                       .onError(
                                         (error, stackTrace) => showSnack(
-                                          context,
                                           error.toString(),
                                         ),
                                       );
-                                  if (!context.mounted) return;
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
+                                  navigatorKey.currentState?.pop();
+                                  navigatorKey.currentState?.pop();
                                 },
                                 child: const Text(
                                   "Yes",
@@ -154,7 +143,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  navigatorKey.currentState?.pop();
                                 },
                                 child: const Text("No"),
                               ),
@@ -305,30 +294,20 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
             const SizedBox(
               height: 10,
             ),
-            DropDownTextField(
-              enableSearch: false,
-              clearOption: false,
-              controller: classCont,
-              textFieldDecoration: const InputDecoration(
-                label: Text("Class"),
-              ),
+            DropdownButton(
+              value: classCont,
               onChanged: (value) {
+                setState(() {
+                  classCont = value!;
+                });
                 checkFields();
               },
-              dropDownList: const [
-                DropDownValueModel(name: Class.first, value: Class.first),
-                DropDownValueModel(name: Class.second, value: Class.second),
-                DropDownValueModel(name: Class.third, value: Class.third),
-                DropDownValueModel(name: Class.fourth, value: Class.fourth),
-                DropDownValueModel(name: Class.fifth, value: Class.fifth),
-                DropDownValueModel(name: Class.sixth, value: Class.sixth),
-                DropDownValueModel(name: Class.eighth, value: Class.seventh),
-                DropDownValueModel(name: Class.eighth, value: Class.eighth),
-                DropDownValueModel(name: Class.ninth, value: Class.ninth),
-                DropDownValueModel(name: Class.tenth, value: Class.tenth),
-                DropDownValueModel(name: Class.eleventh, value: Class.eleventh),
-                DropDownValueModel(name: Class.twelfth, value: Class.twelfth),
-              ],
+              items: Classess.values.map((item) {
+                return DropdownMenuItem(
+                  value: item,
+                  child: Text(item),
+                );
+              }).toList(),
             ),
             const SizedBox(
               height: 30,
@@ -345,21 +324,17 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 dob: dobCont.text.trim(),
                                 penNumber: penNumberCont.text.trim(),
                                 srNumber: srNumberCont.text.trim(),
-                                className: classCont.dropDownValue!.value,
+                                className: classCont,
                                 gender: genderCont,
                               ),
                             )
                             .onError(
                               (error, stackTrace) => showSnack(
-                                context,
                                 "$error Add",
                               ),
                             );
-
-                        if (!context.mounted) return;
-                        showSnack(context, "${student.name} Added.");
-
-                        Navigator.pop(context);
+                        showSnack("${student.name} Added.");
+                        navigatorKey.currentState?.pop();
                       } else {
                         await StudentDBHelper.instance
                             .updateStudent(
@@ -370,21 +345,17 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                 dob: dobCont.text.trim(),
                                 penNumber: penNumberCont.text.trim(),
                                 srNumber: srNumberCont.text.trim(),
-                                className: classCont.dropDownValue!.value,
+                                className: classCont,
                                 gender: genderCont,
                               ),
                             )
                             .onError(
                               (error, stackTrace) => showSnack(
-                                context,
                                 "$error Update",
                               ),
                             );
-                        if (!context.mounted) return;
-                        showSnack(
-                            context, "${nameCont.text.toTitleCase()} Updated.");
-
-                        Navigator.pop(context);
+                        showSnack("${nameCont.text.toTitleCase()} Updated.");
+                        navigatorKey.currentState?.pop();
                       }
                     }
                   : null,
