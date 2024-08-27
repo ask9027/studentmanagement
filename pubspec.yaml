@@ -42,7 +42,6 @@ dependencies:
   get: any
   pdf: any
   printing: any
-  dropdown_textfield: any
   toggle_switch: any
   shared_preferences: any
   date_picker_plus: any
