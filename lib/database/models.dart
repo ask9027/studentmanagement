@@ -31,7 +31,7 @@ class Gender {
   ];
 }
 
-class Class {
+class Classess {
   static const String first = '1st';
   static const String second = '2nd';
   static const String third = '3rd';
