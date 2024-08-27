@@ -32,6 +32,7 @@ class Gender {
 }
 
 class Classess {
+  static const String selectClass = 'Select Class';
   static const String first = '1st';
   static const String second = '2nd';
   static const String third = '3rd';
@@ -45,6 +46,7 @@ class Classess {
   static const String eleventh = '11th';
   static const String twelfth = '12th';
   static final List<String> values = [
+    selectClass,
     first,
     second,
     third,
