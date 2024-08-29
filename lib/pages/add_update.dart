@@ -168,200 +168,204 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: nameCont,
-              decoration: const InputDecoration(
-                hintText: "Enter Name",
-                label: Text(
-                  "Name",
-                ),
-              ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: fNameCont,
-              decoration: const InputDecoration(
-                hintText: "Enter Father's Name",
-                label: Text(
-                  "Father's Name",
-                ),
-              ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: dobCont,
-              readOnly: true,
-              decoration: InputDecoration(
-                hintText: "Enter DOB(yyyy-MM-dd)",
-                label: const Text(
-                  "Date Of Birth",
-                ),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.calendar_month,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: nameCont,
+                decoration: const InputDecoration(
+                  hintText: "Enter Name",
+                  label: Text(
+                    "Name",
                   ),
-                  onPressed: () {
-                    showDatePickerDialog(
-                      context: context,
-                      maxDate: DateTime.now(),
-                      minDate: DateTime(1900),
-                      selectedDate: dobCont.text.isNotEmpty
-                          ? format.parse(dobCont.text)
-                          : DateTime.now(),
-                    ).then(
-                      (value) {
-                        setState(() {
-                          dobCont.text = format.format(value!);
-                          checkFields();
-                        });
-                      },
-                    );
-                  },
                 ),
+                onChanged: (value) => checkFields(),
+                textInputAction: TextInputAction.next,
               ),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: penNumberCont,
-              maxLength: 11,
-              keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              decoration: InputDecoration(
-                hintText: "Enter PEN Number",
-                helperText: "digits only",
-                counter: Text(
-                  "${penNumberCont.text.length}",
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: fNameCont,
+                decoration: const InputDecoration(
+                  hintText: "Enter Father's Name",
+                  label: Text(
+                    "Father's Name",
+                  ),
                 ),
-                label: const Text("PEN Number"),
+                onChanged: (value) => checkFields(),
+                textInputAction: TextInputAction.next,
               ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: srNumberCont,
-              decoration: const InputDecoration(
-                hintText: "Enter SR Number",
-                label: Text("SR Number"),
+              const SizedBox(
+                height: 20,
               ),
-              onChanged: (value) => checkFields(),
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ToggleSwitch(
-              initialLabelIndex: _toggleIndex,
-              totalSwitches: 2,
-              labels: Gender.values,
-              changeOnTap: true,
-              animate: true,
-              inactiveBgColor: Colors.purple.shade50,
-              animationDuration: 150,
-              cornerRadius: 16,
-              onToggle: (index) {
-                setState(() {
-                  if (index == _toggleIndex) {
-                    _toggleIndex = -1;
-                    genderCont = "";
-                  } else {
-                    _toggleIndex = index!;
-                    genderCont = Gender.values[index];
-                  }
-                  checkFields();
-                });
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            DropdownButton(
-              value: classCont,
-              onChanged: (value) {
-                setState(() {
-                  classCont = value!;
-                });
-                checkFields();
-              },
-              items: Classess.values.map((item) {
-                return DropdownMenuItem(
-                  value: item,
-                  child: Text(item),
-                );
-              }).toList(),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            OutlinedButton(
-              onPressed: isBtnEnable
-                  ? () async {
-                      if (widget.isAdd!) {
-                        Student student = await StudentDBHelper.instance
-                            .addStudent(
-                              Student(
-                                name: nameCont.text.toTitleCase().trim(),
-                                fatherName: fNameCont.text.toTitleCase().trim(),
-                                dob: dobCont.text.trim(),
-                                penNumber: penNumberCont.text.trim(),
-                                srNumber: srNumberCont.text.trim(),
-                                className: classCont,
-                                gender: genderCont,
-                              ),
-                            )
-                            .onError(
-                              (error, stackTrace) => showSnack(
-                                "$error Add",
-                              ),
-                            );
-                        showSnack("${student.name} Added.");
-                        navigatorKey.currentState?.pop();
-                      } else {
-                        await StudentDBHelper.instance
-                            .updateStudent(
-                              Student(
-                                id: widget.student!.id,
-                                name: nameCont.text.toTitleCase().trim(),
-                                fatherName: fNameCont.text.toTitleCase().trim(),
-                                dob: dobCont.text.trim(),
-                                penNumber: penNumberCont.text.trim(),
-                                srNumber: srNumberCont.text.trim(),
-                                className: classCont,
-                                gender: genderCont,
-                              ),
-                            )
-                            .onError(
-                              (error, stackTrace) => showSnack(
-                                "$error Update",
-                              ),
-                            );
-                        showSnack("${nameCont.text.toTitleCase()} Updated.");
-                        navigatorKey.currentState?.pop();
-                      }
+              TextFormField(
+                controller: dobCont,
+                readOnly: true,
+                decoration: InputDecoration(
+                  hintText: "Enter DOB(yyyy-MM-dd)",
+                  label: const Text(
+                    "Date Of Birth",
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(
+                      Icons.calendar_month,
+                    ),
+                    onPressed: () {
+                      showDatePickerDialog(
+                        context: context,
+                        maxDate: DateTime.now(),
+                        minDate: DateTime(1900),
+                        selectedDate: dobCont.text.isNotEmpty
+                            ? format.parse(dobCont.text)
+                            : DateTime.now(),
+                      ).then(
+                        (value) {
+                          setState(() {
+                            dobCont.text = format.format(value!);
+                            checkFields();
+                          });
+                        },
+                      );
+                    },
+                  ),
+                ),
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: penNumberCont,
+                maxLength: 11,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                decoration: InputDecoration(
+                  hintText: "Enter PEN Number",
+                  helperText: "digits only",
+                  counter: Text(
+                    "${penNumberCont.text.length}",
+                  ),
+                  label: const Text("PEN Number"),
+                ),
+                onChanged: (value) => checkFields(),
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: srNumberCont,
+                decoration: const InputDecoration(
+                  hintText: "Enter SR Number",
+                  label: Text("SR Number"),
+                ),
+                onChanged: (value) => checkFields(),
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ToggleSwitch(
+                initialLabelIndex: _toggleIndex,
+                totalSwitches: 2,
+                labels: Gender.values,
+                changeOnTap: true,
+                animate: true,
+                inactiveBgColor: Colors.purple.shade50,
+                animationDuration: 150,
+                cornerRadius: 16,
+                onToggle: (index) {
+                  setState(() {
+                    if (index == _toggleIndex) {
+                      _toggleIndex = -1;
+                      genderCont = "";
+                    } else {
+                      _toggleIndex = index!;
+                      genderCont = Gender.values[index];
                     }
-                  : null,
-              child: Text(widget.isAdd! ? "Save" : "Update"),
-            )
-          ],
+                    checkFields();
+                  });
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              DropdownButton(
+                value: classCont,
+                onChanged: (value) {
+                  setState(() {
+                    classCont = value!;
+                  });
+                  checkFields();
+                },
+                items: Classess.values.map((item) {
+                  return DropdownMenuItem(
+                    value: item,
+                    child: Text(item),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              OutlinedButton(
+                onPressed: isBtnEnable
+                    ? () async {
+                        if (widget.isAdd!) {
+                          Student student = await StudentDBHelper.instance
+                              .addStudent(
+                                Student(
+                                  name: nameCont.text.toTitleCase().trim(),
+                                  fatherName:
+                                      fNameCont.text.toTitleCase().trim(),
+                                  dob: dobCont.text.trim(),
+                                  penNumber: penNumberCont.text.trim(),
+                                  srNumber: srNumberCont.text.trim(),
+                                  className: classCont,
+                                  gender: genderCont,
+                                ),
+                              )
+                              .onError(
+                                (error, stackTrace) => showSnack(
+                                  "$error Add",
+                                ),
+                              );
+                          showSnack("${student.name} Added.");
+                          navigatorKey.currentState?.pop();
+                        } else {
+                          await StudentDBHelper.instance
+                              .updateStudent(
+                                Student(
+                                  id: widget.student!.id,
+                                  name: nameCont.text.toTitleCase().trim(),
+                                  fatherName:
+                                      fNameCont.text.toTitleCase().trim(),
+                                  dob: dobCont.text.trim(),
+                                  penNumber: penNumberCont.text.trim(),
+                                  srNumber: srNumberCont.text.trim(),
+                                  className: classCont,
+                                  gender: genderCont,
+                                ),
+                              )
+                              .onError(
+                                (error, stackTrace) => showSnack(
+                                  "$error Update",
+                                ),
+                              );
+                          showSnack("${nameCont.text.toTitleCase()} Updated.");
+                          navigatorKey.currentState?.pop();
+                        }
+                      }
+                    : null,
+                child: Text(widget.isAdd! ? "Save" : "Update"),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -60,90 +60,92 @@ class _SetupState extends State<Setup> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton(
-              value: classCont,
-              items: ClassFields.values.map((items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text(items),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  classCont = value!;
-                });
-                checkFields();
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: classTeachCont,
-              decoration: const InputDecoration(
-                hintText: "Enter Class Teacher's Name",
-                label: Text("Class Teacher"),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DropdownButton(
+                value: classCont,
+                items: ClassFields.values.map((items) {
+                  return DropdownMenuItem(
+                    value: items,
+                    child: Text(items),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    classCont = value!;
+                  });
+                  checkFields();
+                },
               ),
-              onChanged: (value) {
-                checkFields();
-              },
-              textInputAction: TextInputAction.done,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            OutlinedButton(
-              onPressed: isBtnEnable
-                  ? () async {
-                      if (widget.isAdd!) {
-                        ClassModel classModel = await StudentDBHelper.instance
-                            .addClassDetails(
-                              ClassModel(
-                                className: classCont,
-                                classTeacher:
-                                    classTeachCont.text.toTitleCase().trim(),
-                                isSetup: "1",
-                              ),
-                            )
-                            .onError(
-                              (error, stackTrace) => showSnack(
-                                "$error Add",
-                              ),
-                            );
-                        showSnack("${classModel.className} Added.");
-                        navigatorKey.currentState?.pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        );
-                      } else {
-                        await StudentDBHelper.instance
-                            .updateClass(
-                              ClassModel(
-                                id: widget.classModel!.id,
-                                className: classCont,
-                                classTeacher:
-                                    classTeachCont.text.toTitleCase().trim(),
-                                isSetup: widget.classModel!.isSetup.trim(),
-                              ),
-                            )
-                            .onError(
-                              (error, stackTrace) => showSnack(
-                                "$error Update",
-                              ),
-                            );
-                        showSnack("$classCont Updated.");
-                        navigatorKey.currentState?.pop();
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: classTeachCont,
+                decoration: const InputDecoration(
+                  hintText: "Enter Class Teacher's Name",
+                  label: Text("Class Teacher"),
+                ),
+                onChanged: (value) {
+                  checkFields();
+                },
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              OutlinedButton(
+                onPressed: isBtnEnable
+                    ? () async {
+                        if (widget.isAdd!) {
+                          ClassModel classModel = await StudentDBHelper.instance
+                              .addClassDetails(
+                                ClassModel(
+                                  className: classCont,
+                                  classTeacher:
+                                      classTeachCont.text.toTitleCase().trim(),
+                                  isSetup: "1",
+                                ),
+                              )
+                              .onError(
+                                (error, stackTrace) => showSnack(
+                                  "$error Add",
+                                ),
+                              );
+                          showSnack("${classModel.className} Added.");
+                          navigatorKey.currentState?.pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                          );
+                        } else {
+                          await StudentDBHelper.instance
+                              .updateClass(
+                                ClassModel(
+                                  id: widget.classModel!.id,
+                                  className: classCont,
+                                  classTeacher:
+                                      classTeachCont.text.toTitleCase().trim(),
+                                  isSetup: widget.classModel!.isSetup.trim(),
+                                ),
+                              )
+                              .onError(
+                                (error, stackTrace) => showSnack(
+                                  "$error Update",
+                                ),
+                              );
+                          showSnack("$classCont Updated.");
+                          navigatorKey.currentState?.pop();
+                        }
                       }
-                    }
-                  : null,
-              child: Text(widget.isAdd! ? "Save" : "Update"),
-            )
-          ],
+                    : null,
+                child: Text(widget.isAdd! ? "Save" : "Update"),
+              )
+            ],
+          ),
         ),
       ),
     );
