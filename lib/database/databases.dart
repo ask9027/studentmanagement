@@ -29,14 +29,14 @@ CREATE TABLE $studentTable(
   ${StudentFields.gender} $textType
 )
 """);
-    await db.execute("""
-CREATE TABLE $classTable(
-  ${ClassFields.id} $idType,
-  ${ClassFields.className} $textType,
-  ${ClassFields.classTeacher} $textType,
-  ${ClassFields.isSetup} $textType
-)
-""");
+//    await db.execute("""
+//CREATE TABLE $classTable(
+//  ${ClassFields.id} $idType,
+//  ${ClassFields.className} $textType,
+//  ${ClassFields.classTeacher} $textType,
+//  ${ClassFields.isSetup} $textType
+//)
+//""");
   }
 
   Future<Student> addStudent(Student student) async {
