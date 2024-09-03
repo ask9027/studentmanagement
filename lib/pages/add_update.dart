@@ -1,7 +1,7 @@
-import 'package:date_picker_plus/date_picker_plus.dart';
+// import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+// import 'package:flutter/services.dart';
+// import 'package:intl/intl.dart';
 import 'package:studentmanagement/main.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -23,28 +23,28 @@ class AddUpdateStudent extends StatefulWidget {
 class _AddUpdateStudentState extends State<AddUpdateStudent> {
   final TextEditingController nameCont = TextEditingController();
   final TextEditingController fNameCont = TextEditingController();
-  final TextEditingController dobCont = TextEditingController();
-  final TextEditingController penNumberCont =
-      TextEditingController(text: "00000000000");
-  final TextEditingController srNumberCont =
-      TextEditingController(text: "0000");
+  // final TextEditingController dobCont = TextEditingController();
+  // final TextEditingController penNumberCont =
+  //     TextEditingController(text: "00000000000");
+  // final TextEditingController srNumberCont =
+  //     TextEditingController(text: "0000");
   String genderCont = "";
   int _toggleIndex = -1;
-  String classCont = "Select Class";
+  // String classCont = "Select Class";
   bool isBtnEnable = false;
-  final DateFormat format = DateFormat("yyyy-MM-dd");
+  // final DateFormat format = DateFormat("yyyy-MM-dd");
 
   @override
   void initState() {
     if (!widget.isAdd!) {
       nameCont.text = widget.student!.name;
       fNameCont.text = widget.student!.fatherName;
-      dobCont.text = widget.student!.dob;
-      penNumberCont.text = widget.student!.penNumber;
-      srNumberCont.text = widget.student!.srNumber;
+      // dobCont.text = widget.student!.dob;
+      // penNumberCont.text = widget.student!.penNumber;
+      // srNumberCont.text = widget.student!.srNumber;
       genderCont = widget.student!.gender.toString();
       _toggleIndex = Gender.values.indexOf(genderCont);
-      classCont = widget.student!.className.toString();
+      // classCont = widget.student!.className.toString();
     }
     super.initState();
   }
@@ -52,12 +52,14 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   checkFields() {
     setState(() {
       if (nameCont.text.toString().isNotEmpty &&
-          fNameCont.text.toString().isNotEmpty &&
-          dobCont.text.toString().isNotEmpty &&
-          penNumberCont.text.toString().isNotEmpty &&
-          srNumberCont.text.toString().isNotEmpty &&
-          genderCont.isNotEmpty &&
-          !classCont.contains("Select Class")) {
+              fNameCont.text.toString().isNotEmpty &&
+              // dobCont.text.toString().isNotEmpty &&
+              // penNumberCont.text.toString().isNotEmpty &&
+              // srNumberCont.text.toString().isNotEmpty &&
+              genderCont.isNotEmpty
+          //&&
+          // !classCont.contains("Select Class")
+          ) {
         isBtnEnable = true;
       } else {
         isBtnEnable = false;
@@ -69,9 +71,9 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   void dispose() {
     nameCont.dispose();
     fNameCont.dispose();
-    dobCont.dispose();
-    penNumberCont.dispose();
-    srNumberCont.dispose();
+    // dobCont.dispose();
+    // penNumberCont.dispose();
+    // srNumberCont.dispose();
     super.dispose();
   }
 
@@ -198,75 +200,75 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                 onChanged: (value) => checkFields(),
                 textInputAction: TextInputAction.next,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: dobCont,
-                readOnly: true,
-                decoration: InputDecoration(
-                  hintText: "Enter DOB(yyyy-MM-dd)",
-                  label: const Text(
-                    "Date Of Birth",
-                  ),
-                  suffixIcon: IconButton(
-                    icon: const Icon(
-                      Icons.calendar_month,
-                    ),
-                    onPressed: () {
-                      showDatePickerDialog(
-                        context: context,
-                        maxDate: DateTime.now(),
-                        minDate: DateTime(1900),
-                        selectedDate: dobCont.text.isNotEmpty
-                            ? format.parse(dobCont.text)
-                            : DateTime.now(),
-                      ).then(
-                        (value) {
-                          setState(() {
-                            dobCont.text = format.format(value!);
-                            checkFields();
-                          });
-                        },
-                      );
-                    },
-                  ),
-                ),
-                textInputAction: TextInputAction.next,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: penNumberCont,
-                maxLength: 11,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                decoration: InputDecoration(
-                  hintText: "Enter PEN Number",
-                  helperText: "digits only",
-                  counter: Text(
-                    "${penNumberCont.text.length}",
-                  ),
-                  label: const Text("PEN Number"),
-                ),
-                onChanged: (value) => checkFields(),
-                textInputAction: TextInputAction.next,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: srNumberCont,
-                decoration: const InputDecoration(
-                  hintText: "Enter SR Number",
-                  label: Text("SR Number"),
-                ),
-                onChanged: (value) => checkFields(),
-                textInputAction: TextInputAction.next,
-              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // TextFormField(
+              //   controller: dobCont,
+              //   readOnly: true,
+              //   decoration: InputDecoration(
+              //     hintText: "Enter DOB(yyyy-MM-dd)",
+              //     label: const Text(
+              //       "Date Of Birth",
+              //     ),
+              //     suffixIcon: IconButton(
+              //       icon: const Icon(
+              //         Icons.calendar_month,
+              //       ),
+              //       onPressed: () {
+              //         showDatePickerDialog(
+              //           context: context,
+              //           maxDate: DateTime.now(),
+              //           minDate: DateTime(1900),
+              //           selectedDate: dobCont.text.isNotEmpty
+              //               ? format.parse(dobCont.text)
+              //               : DateTime.now(),
+              //         ).then(
+              //           (value) {
+              //             setState(() {
+              //               dobCont.text = format.format(value!);
+              //               checkFields();
+              //             });
+              //           },
+              //         );
+              //       },
+              //     ),
+              //   ),
+              //   textInputAction: TextInputAction.next,
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // TextFormField(
+              //   controller: penNumberCont,
+              //   maxLength: 11,
+              //   keyboardType: TextInputType.number,
+              //   inputFormatters: [
+              //     FilteringTextInputFormatter.digitsOnly,
+              //   ],
+              //   decoration: InputDecoration(
+              //     hintText: "Enter PEN Number",
+              //     helperText: "digits only",
+              //     counter: Text(
+              //       "${penNumberCont.text.length}",
+              //     ),
+              //     label: const Text("PEN Number"),
+              //   ),
+              //   onChanged: (value) => checkFields(),
+              //   textInputAction: TextInputAction.next,
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // TextFormField(
+              //   controller: srNumberCont,
+              //   decoration: const InputDecoration(
+              //     hintText: "Enter SR Number",
+              //     label: Text("SR Number"),
+              //   ),
+              //   onChanged: (value) => checkFields(),
+              //   textInputAction: TextInputAction.next,
+              // ),
               const SizedBox(
                 height: 10,
               ),
@@ -292,24 +294,24 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                   });
                 },
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              DropdownButton(
-                value: classCont,
-                onChanged: (value) {
-                  setState(() {
-                    classCont = value!;
-                  });
-                  checkFields();
-                },
-                items: Classess.values.map((item) {
-                  return DropdownMenuItem(
-                    value: item,
-                    child: Text(item),
-                  );
-                }).toList(),
-              ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              //  DropdownButton(
+              //   value: classCont,
+              //   onChanged: (value) {
+              //     setState(() {
+              //       classCont = value!;
+              //     });
+              //     checkFields();
+              //   },
+              //   items: Classess.values.map((item) {
+              //     return DropdownMenuItem(
+              //       value: item,
+              //       child: Text(item),
+              //     );
+              //   }).toList(),
+              // ),
               const SizedBox(
                 height: 30,
               ),
@@ -323,10 +325,10 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                   name: nameCont.text.toTitleCase().trim(),
                                   fatherName:
                                       fNameCont.text.toTitleCase().trim(),
-                                  dob: dobCont.text.trim(),
-                                  penNumber: penNumberCont.text.trim(),
-                                  srNumber: srNumberCont.text.trim(),
-                                  className: classCont,
+                                  // dob: dobCont.text.trim(),
+                                  // penNumber: penNumberCont.text.trim(),
+                                  // srNumber: srNumberCont.text.trim(),
+                                  // className: classCont,
                                   gender: genderCont,
                                 ),
                               )
@@ -345,10 +347,10 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                                   name: nameCont.text.toTitleCase().trim(),
                                   fatherName:
                                       fNameCont.text.toTitleCase().trim(),
-                                  dob: dobCont.text.trim(),
-                                  penNumber: penNumberCont.text.trim(),
-                                  srNumber: srNumberCont.text.trim(),
-                                  className: classCont,
+                                  // dob: dobCont.text.trim(),
+                                  // penNumber: penNumberCont.text.trim(),
+                                  // srNumber: srNumberCont.text.trim(),
+                                  // className: classCont,
                                   gender: genderCont,
                                 ),
                               )

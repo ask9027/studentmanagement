@@ -5,19 +5,19 @@ class StudentFields {
   static const String id = "_id";
   static const String name = "name";
   static const String fatherName = "fatherName";
-  static const String className = "className";
-  static const String dob = "dob";
-  static const String penNumber = "penNumber";
-  static const String srNumber = "srNumber";
+  //static const String className = "className";
+  //static const String dob = "dob";
+  //static const String penNumber = "penNumber";
+  //static const String srNumber = "srNumber";
   static const String gender = "gender";
   static final List<String> values = [
     id,
     name,
     fatherName,
-    className,
-    dob,
-    penNumber,
-    srNumber,
+    // className,
+    // dob,
+    // penNumber,
+    // srNumber,
     gender,
   ];
 }
@@ -31,55 +31,55 @@ class Gender {
   ];
 }
 
-class Classess {
-  static const String selectClass = 'Select Class';
-  static const String first = '1st';
-  static const String second = '2nd';
-  static const String third = '3rd';
-  static const String fourth = '4th';
-  static const String fifth = '5th';
-  static const String sixth = '6th';
-  static const String seventh = '7th';
-  static const String eighth = '8th';
-  static const String ninth = '9th';
-  static const String tenth = '10th';
-  static const String eleventh = '11th';
-  static const String twelfth = '12th';
-  static final List<String> values = [
-    selectClass,
-    first,
-    second,
-    third,
-    fourth,
-    fifth,
-    sixth,
-    seventh,
-    eighth,
-    ninth,
-    tenth,
-    eleventh,
-    twelfth,
-  ];
-}
+// class Classess {
+//   static const String selectClass = 'Select Class';
+//   static const String first = '1st';
+//   static const String second = '2nd';
+//   static const String third = '3rd';
+//   static const String fourth = '4th';
+//   static const String fifth = '5th';
+//   static const String sixth = '6th';
+//   static const String seventh = '7th';
+//   static const String eighth = '8th';
+//   static const String ninth = '9th';
+//   static const String tenth = '10th';
+//   static const String eleventh = '11th';
+//   static const String twelfth = '12th';
+//   static final List<String> values = [
+//     selectClass,
+//     first,
+//     second,
+//     third,
+//     fourth,
+//     fifth,
+//     sixth,
+//     seventh,
+//     eighth,
+//     ninth,
+//     tenth,
+//     eleventh,
+//     twelfth,
+//   ];
+// }
 
 class Student {
   final int? id;
   final String name;
   final String fatherName;
-  final String className;
-  final String dob;
-  final String penNumber;
-  final String srNumber;
+  // final String className;
+  // final String dob;
+  // final String penNumber;
+  // final String srNumber;
   final String gender;
 
   const Student({
     this.id,
     required this.name,
     required this.fatherName,
-    required this.className,
-    required this.dob,
-    required this.penNumber,
-    required this.srNumber,
+    // required this.className,
+    // required this.dob,
+    // required this.penNumber,
+    // required this.srNumber,
     required this.gender,
   });
 
@@ -87,20 +87,20 @@ class Student {
     int? id,
     String? name,
     String? fatherName,
-    String? className,
-    String? dob,
-    String? penNumber,
-    String? srNumber,
+    // String? className,
+    // String? dob,
+    // String? penNumber,
+    // String? srNumber,
     String? gender,
   }) =>
       Student(
         id: id ?? this.id,
         name: name ?? this.name,
         fatherName: fatherName ?? this.fatherName,
-        className: className ?? this.className,
-        dob: dob ?? this.dob,
-        penNumber: penNumber ?? this.penNumber,
-        srNumber: srNumber ?? this.srNumber,
+        // className: className ?? this.className,
+        // dob: dob ?? this.dob,
+        // penNumber: penNumber ?? this.penNumber,
+        // srNumber: srNumber ?? this.srNumber,
         gender: gender ?? this.gender,
       );
 
@@ -108,10 +108,10 @@ class Student {
         id: json[StudentFields.id] as int?,
         name: json[StudentFields.name] as String,
         fatherName: json[StudentFields.fatherName] as String,
-        className: json[StudentFields.className] as String,
-        dob: json[StudentFields.dob] as String,
-        penNumber: json[StudentFields.penNumber] as String,
-        srNumber: json[StudentFields.srNumber] as String,
+        // className: json[StudentFields.className] as String,
+        // dob: json[StudentFields.dob] as String,
+        // penNumber: json[StudentFields.penNumber] as String,
+        // srNumber: json[StudentFields.srNumber] as String,
         gender: json[StudentFields.gender] as String,
       );
 
@@ -119,10 +119,10 @@ class Student {
         StudentFields.id: id,
         StudentFields.name: name,
         StudentFields.fatherName: fatherName,
-        StudentFields.className: className,
-        StudentFields.dob: dob,
-        StudentFields.penNumber: penNumber,
-        StudentFields.srNumber: srNumber,
+        // StudentFields.className: className,
+        // StudentFields.dob: dob,
+        // StudentFields.penNumber: penNumber,
+        // StudentFields.srNumber: srNumber,
         StudentFields.gender: gender,
       };
 }

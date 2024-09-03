@@ -183,34 +183,34 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
-                                  Text(
-                                    "DOB : ${student.dob}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "PEN Number : ${student.penNumber}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "S.R. Number : ${student.srNumber}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Class : ${student.className}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   "DOB : ${student.dob}",
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "PEN Number : ${student.penNumber}",
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "S.R. Number : ${student.srNumber}",
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // ),
+                                  // Text(
+                                  //   "Class : ${student.className}",
+                                  //   style: const TextStyle(
+                                  //     color: Colors.black,
+                                  //     fontWeight: FontWeight.bold,
+                                  //   ),
+                                  // ),
                                   Text(
                                     "Gender : ${student.gender}",
                                     style: const TextStyle(

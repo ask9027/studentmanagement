@@ -55,34 +55,34 @@ class PdfAndPrinting {
                                 fontWeight: pw.FontWeight.bold,
                               ),
                             ),
-                            pw.Text(
-                              "DOB : ${student.dob}",
-                              style: pw.TextStyle(
-                                color: const PdfColor.fromInt(0xFF000000),
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                            pw.Text(
-                              "PEN Number : ${student.penNumber}",
-                              style: pw.TextStyle(
-                                color: const PdfColor.fromInt(0xFF000000),
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                            pw.Text(
-                              "S.R. Number : ${student.srNumber}",
-                              style: pw.TextStyle(
-                                color: const PdfColor.fromInt(0xFF000000),
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
-                            pw.Text(
-                              "Class : ${student.className}",
-                              style: pw.TextStyle(
-                                color: const PdfColor.fromInt(0xFF000000),
-                                fontWeight: pw.FontWeight.bold,
-                              ),
-                            ),
+                            // pw.Text(
+                            //   "DOB : ${student.dob}",
+                            //   style: pw.TextStyle(
+                            //     color: const PdfColor.fromInt(0xFF000000),
+                            //     fontWeight: pw.FontWeight.bold,
+                            //   ),
+                            // ),
+                            // pw.Text(
+                            //   "PEN Number : ${student.penNumber}",
+                            //   style: pw.TextStyle(
+                            //     color: const PdfColor.fromInt(0xFF000000),
+                            //     fontWeight: pw.FontWeight.bold,
+                            //   ),
+                            // ),
+                            // pw.Text(
+                            //   "S.R. Number : ${student.srNumber}",
+                            //   style: pw.TextStyle(
+                            //     color: const PdfColor.fromInt(0xFF000000),
+                            //     fontWeight: pw.FontWeight.bold,
+                            //   ),
+                            // ),
+                            // pw.Text(
+                            //   "Class : ${student.className}",
+                            //   style: pw.TextStyle(
+                            //     color: const PdfColor.fromInt(0xFF000000),
+                            //     fontWeight: pw.FontWeight.bold,
+                            //   ),
+                            // ),
                             pw.Text(
                               "Gender : ${student.gender}",
                               style: pw.TextStyle(

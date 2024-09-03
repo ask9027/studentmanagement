@@ -26,10 +26,6 @@ CREATE TABLE $studentTable(
   ${StudentFields.id} $idType,
   ${StudentFields.name} $textType,
   ${StudentFields.fatherName} $textType,
-  ${StudentFields.className} $textType,
-  ${StudentFields.dob} $textType,
-  ${StudentFields.penNumber} $textType,
-  ${StudentFields.srNumber} $textType,
   ${StudentFields.gender} $textType
 )
 """);
