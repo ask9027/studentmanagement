@@ -1,14 +1,13 @@
 // import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // import 'package:flutter/services.dart';
 // import 'package:intl/intl.dart';
-import 'package:studentmanagement/main.dart';
+import 'package:studentmanagement/student_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import '../database/databases.dart';
 import '../database/models.dart';
 import '../extensions.dart';
-import '../widgets.dart';
 
 class AddUpdateStudent extends StatefulWidget {
   const AddUpdateStudent({super.key, this.isAdd, this.student});
@@ -28,11 +27,13 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
   //     TextEditingController(text: "00000000000");
   // final TextEditingController srNumberCont =
   //     TextEditingController(text: "0000");
-  String genderCont = "";
+  String gender = "";
   int _toggleIndex = -1;
   // String classCont = "Select Class";
   bool isBtnEnable = false;
   // final DateFormat format = DateFormat("yyyy-MM-dd");
+
+  final StudentController studentController = Get.find<StudentController>();
 
   @override
   void initState() {
@@ -42,8 +43,8 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
       // dobCont.text = widget.student!.dob;
       // penNumberCont.text = widget.student!.penNumber;
       // srNumberCont.text = widget.student!.srNumber;
-      genderCont = widget.student!.gender.toString();
-      _toggleIndex = Gender.values.indexOf(genderCont);
+      gender = widget.student!.gender.toString();
+      _toggleIndex = Gender.values.indexOf(gender);
       // classCont = widget.student!.className.toString();
     }
     super.initState();
@@ -56,7 +57,7 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               // dobCont.text.toString().isNotEmpty &&
               // penNumberCont.text.toString().isNotEmpty &&
               // srNumberCont.text.toString().isNotEmpty &&
-              genderCont.isNotEmpty
+              gender.isNotEmpty
           //&&
           // !classCont.contains("Select Class")
           ) {
@@ -92,66 +93,58 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                   clipBehavior: Clip.hardEdge,
                   type: MaterialType.transparency,
                   child: InkWell(
-                    onTap: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text(
-                              "Delete",
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
+                    onTap: () {
+                      Get.dialog(
+                        AlertDialog(
+                          title: const Text(
+                            "Delete",
+                            style: TextStyle(
+                              color: Colors.red,
                             ),
-                            content: RichText(
-                              text: TextSpan(
-                                children: [
-                                  const TextSpan(
-                                    text: "Do You want to delete",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  TextSpan(
-                                    text: " `${widget.student!.name}` ",
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                  const TextSpan(
-                                    text: "?",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  await StudentDBHelper.instance
-                                      .deleteStudent(widget.student!.id!)
-                                      .onError(
-                                        (error, stackTrace) => showSnack(
-                                          error.toString(),
-                                        ),
-                                      );
-                                  navigatorKey.currentState?.pop();
-                                  navigatorKey.currentState?.pop();
-                                },
-                                child: const Text(
-                                  "Yes",
-                                  style: TextStyle(
+                          ),
+                          content: RichText(
+                            text: TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: "Do You want to delete",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: " `${widget.student!.name}` ",
+                                  style: const TextStyle(
                                     color: Colors.red,
                                   ),
                                 ),
+                                const TextSpan(
+                                  text: "?",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                studentController
+                                    .deleteStudent(widget.student!);
+                                Get.back();
+                                Get.back();
+                              },
+                              child: const Text(
+                                "Yes",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  navigatorKey.currentState?.pop();
-                                },
-                                child: const Text("No"),
-                              ),
-                            ],
-                          );
-                        },
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text("No"),
+                            ),
+                          ],
+                        ),
                       );
                     },
                     child: const Padding(
@@ -285,10 +278,10 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
                   setState(() {
                     if (index == _toggleIndex) {
                       _toggleIndex = -1;
-                      genderCont = "";
+                      gender = "";
                     } else {
                       _toggleIndex = index!;
-                      genderCont = Gender.values[index];
+                      gender = Gender.values[index];
                     }
                     checkFields();
                   });
@@ -317,50 +310,34 @@ class _AddUpdateStudentState extends State<AddUpdateStudent> {
               ),
               OutlinedButton(
                 onPressed: isBtnEnable
-                    ? () async {
+                    ? () {
                         if (widget.isAdd!) {
-                          Student student = await StudentDBHelper.instance
-                              .addStudent(
-                                Student(
-                                  name: nameCont.text.toTitleCase().trim(),
-                                  fatherName:
-                                      fNameCont.text.toTitleCase().trim(),
-                                  // dob: dobCont.text.trim(),
-                                  // penNumber: penNumberCont.text.trim(),
-                                  // srNumber: srNumberCont.text.trim(),
-                                  // className: classCont,
-                                  gender: genderCont,
-                                ),
-                              )
-                              .onError(
-                                (error, stackTrace) => showSnack(
-                                  "$error Add",
-                                ),
-                              );
-                          showSnack("${student.name} Added.");
-                          navigatorKey.currentState?.pop();
+                          studentController.addStudent(
+                            Student(
+                              name: nameCont.text.toTitleCase().trim(),
+                              fatherName: fNameCont.text.toTitleCase().trim(),
+                              // dob: dobCont.text.trim(),
+                              // penNumber: penNumberCont.text.trim(),
+                              // srNumber: srNumberCont.text.trim(),
+                              // className: classCont,
+                              gender: gender,
+                            ),
+                          );
+                          Get.back();
                         } else {
-                          await StudentDBHelper.instance
-                              .updateStudent(
-                                Student(
-                                  id: widget.student!.id,
-                                  name: nameCont.text.toTitleCase().trim(),
-                                  fatherName:
-                                      fNameCont.text.toTitleCase().trim(),
-                                  // dob: dobCont.text.trim(),
-                                  // penNumber: penNumberCont.text.trim(),
-                                  // srNumber: srNumberCont.text.trim(),
-                                  // className: classCont,
-                                  gender: genderCont,
-                                ),
-                              )
-                              .onError(
-                                (error, stackTrace) => showSnack(
-                                  "$error Update",
-                                ),
-                              );
-                          showSnack("${nameCont.text.toTitleCase()} Updated.");
-                          navigatorKey.currentState?.pop();
+                          studentController.updateStudent(
+                            Student(
+                              id: widget.student!.id,
+                              name: nameCont.text.toTitleCase().trim(),
+                              fatherName: fNameCont.text.toTitleCase().trim(),
+                              // dob: dobCont.text.trim(),
+                              // penNumber: penNumberCont.text.trim(),
+                              // srNumber: srNumberCont.text.trim(),
+                              // className: classCont,
+                              gender: gender,
+                            ),
+                          );
+                          Get.back();
                         }
                       }
                     : null,
