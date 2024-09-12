@@ -23,7 +23,7 @@ class StudentController extends GetxController {
     getStudentsDetails();
   }
 
-  Future<void> getStudentsDetails() async {
+  void getStudentsDetails() async {
     try {
       isLoading(true);
       final data = await StudentDBHelper.instance
@@ -37,54 +37,44 @@ class StudentController extends GetxController {
   }
 
   Future<void> addStudent(Student student) async {
-    try {
-      await StudentDBHelper.instance.addStudent(student);
-      await getStudentsDetails();
-      Get.snackbar(
-        "Success",
-        "${student.name} is added successfully!",
-      );
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Failed to add student: ${e.toString()}",
-      );
-    }
+    handleOperation(
+      () => StudentDBHelper.instance.addStudent(student),
+      "${student.name} is added successfully!",
+    );
   }
 
   Future<void> updateStudent(Student student) async {
-    try {
-      await StudentDBHelper.instance.updateStudent(student);
-      await getStudentsDetails();
-      Get.snackbar(
-        "Success",
-        "${student.name} is updated successfully!",
-      );
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Failed to update student: ${e.toString()}",
-      );
-    }
+    handleOperation(
+      () => StudentDBHelper.instance.updateStudent(student),
+      "${student.name} is updated successfully!",
+    );
   }
 
   Future<void> deleteStudent(Student student) async {
+    handleOperation(
+      () => StudentDBHelper.instance.deleteStudent(student.id!),
+      "${student.name} is deleted successfully!",
+    );
+  }
+
+  Future<void> handleOperation(
+      Future<void> Function() operation, String message) async {
     try {
-      await StudentDBHelper.instance.deleteStudent(student.id!);
-      await getStudentsDetails();
+      await operation();
+      getStudentsDetails();
       Get.snackbar(
         "Success",
-        "${student.name} is deleted successfully!",
+        message,
       );
     } catch (e) {
       Get.snackbar(
         "Error",
-        "Failed to delete student: ${e.toString()}",
+        "Failed student operation: ${e.toString()}",
       );
     }
   }
 
-  void saveToggleState() async {
+  Future<void> saveToggleState() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("genderIndex", genderIndex.value);
     prefs.setInt("nameIndex", nameIndex.value);

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/main.dart';
-import 'package:studentmanagement/student_controller.dart';
+import 'package:studentmanagement/controllers/student_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/models.dart';
@@ -114,7 +114,11 @@ class HomePage extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             Get.to(
-                              AddUpdateStudent(isAdd: false, student: student),
+                              () => AddUpdateStudent(),
+                              arguments: {
+                                "isAdd": false,
+                                "student": student,
+                              },
                             );
                           },
                           child: Column(
@@ -138,34 +142,6 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              // Text(
-                              //   "DOB : ${student.dob}",
-                              //   style: const TextStyle(
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "PEN Number : ${student.penNumber}",
-                              //   style: const TextStyle(
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "S.R. Number : ${student.srNumber}",
-                              //   style: const TextStyle(
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
-                              // Text(
-                              //   "Class : ${student.className}",
-                              //   style: const TextStyle(
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
                               Text(
                                 "Father's Name : ${student.fatherName}",
                                 style: const TextStyle(
@@ -190,9 +166,11 @@ class HomePage extends StatelessWidget {
           final currentNavigatorState = navigatorKey.currentState;
           if (currentNavigatorState != null) {
             Get.to(
-              const AddUpdateStudent(
-                isAdd: true,
-              ),
+              () => AddUpdateStudent(),
+              arguments: {
+                "isAdd": true,
+                "student": null,
+              },
             );
           }
         },
