@@ -2,34 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studentmanagement/main.dart';
+import 'package:studentmanagement/controllers/student_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import '../database/databases.dart';
 import '../database/models.dart';
 import '../pages/pdf_and_printing.dart';
-import '../widgets.dart';
 import 'add_update.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late String _orderByGender;
-  late String _orderByName;
-  late int _genderIndex;
-  late int _nameIndex;
-
-  @override
-  void initState() {
-    loadToggleState();
-    super.initState();
-  }
+class HomePage extends StatelessWidget {
+  final StudentController studentController = Get.put(StudentController());
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,35 +20,17 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Student Management"),
       ),
-      body: FutureBuilder<List<Student>>(
-        future: StudentDBHelper.instance
-            .getAllStudents(_orderByGender, _orderByName),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: Obx(
+        () {
+          if (studentController.isLoading.value) {
             return const Center(
-              child: Text(
-                "Loading...",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: CircularProgressIndicator(),
             );
-          } else if (snapshot.hasError) {
-            showSnack("While getting Data:\n${snapshot.error}");
-            return const Center(
-              child: Text(
-                "Error eccurred",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+          } else if (studentController.error.isNotEmpty) {
+            return Center(
+              child: Text(studentController.error.value),
             );
-          } else if (!snapshot.hasData ||
-              snapshot.data == null ||
-              snapshot.data!.isEmpty) {
+          } else if (studentController.students.isEmpty) {
             return const Center(
               child: Text(
                 "No Student Found",
@@ -77,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           } else {
-            final students = snapshot.data!;
+            final students = studentController.students.toList();
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -132,96 +97,60 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: students.toList().length,
+                    itemCount: studentController.students.toList().length,
                     itemBuilder: (context, index) {
+                      final student = students.elementAt(index);
                       return Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 5),
                         margin: const EdgeInsets.symmetric(
                             vertical: 5, horizontal: 16),
                         decoration: BoxDecoration(
-                          color: students.elementAt(index).gender == Gender.boy
+                          color: student.gender == Gender.boy
                               ? Colors.deepPurple.shade50
                               : Colors.pink.shade50,
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: InkWell(
                           onTap: () {
-                            navigatorKey.currentState?.push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return AddUpdateStudent(
-                                    isAdd: false,
-                                    student: students.elementAt(index),
-                                  );
-                                },
-                              ),
-                            ).then((_) {
-                              setState(() {});
-                            });
+                            Get.to(
+                              () => AddUpdateStudent(),
+                              arguments: {
+                                "isAdd": false,
+                                "student": student,
+                              },
+                            );
                           },
-                          child: students.map(
-                            (student) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "S.N. ${index + 1}",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        ":  ${student.name}",
-                                        style: const TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Text(
-                                  //   "DOB : ${student.dob}",
-                                  //   style: const TextStyle(
-                                  //     color: Colors.black,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
-                                  // Text(
-                                  //   "PEN Number : ${student.penNumber}",
-                                  //   style: const TextStyle(
-                                  //     color: Colors.black,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
-                                  // Text(
-                                  //   "S.R. Number : ${student.srNumber}",
-                                  //   style: const TextStyle(
-                                  //     color: Colors.black,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
-                                  // Text(
-                                  //   "Class : ${student.className}",
-                                  //   style: const TextStyle(
-                                  //     color: Colors.black,
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
                                   Text(
-                                    "Gender : ${student.gender}",
+                                    "S.N. ${index + 1} : ",
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  Text(
+                                    student.name,
+                                    style: const TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ],
-                              );
-                            },
-                          ).elementAt(index),
+                              ),
+                              Text(
+                                "Father's Name : ${student.fatherName}",
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -236,40 +165,18 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           final currentNavigatorState = navigatorKey.currentState;
           if (currentNavigatorState != null) {
-            currentNavigatorState
-                .push(MaterialPageRoute(
-              builder: (context) => const AddUpdateStudent(
-                isAdd: true,
-              ),
-            ))
-                .then((_) {
-              setState(() {});
-            });
+            Get.to(
+              () => AddUpdateStudent(),
+              arguments: {
+                "isAdd": true,
+                "student": null,
+              },
+            );
           }
         },
         child: const Icon(Icons.add),
       ),
     );
-  }
-
-  void saveToggleState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt("genderIndex", _genderIndex);
-    prefs.setInt("nameIndex", _nameIndex);
-  }
-
-  void loadToggleState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _genderIndex = prefs.getInt("genderIndex") ?? -1;
-      _orderByGender = _genderIndex < 0 ? "" : Gender.values[_genderIndex];
-      _nameIndex = prefs.getInt("nameIndex") ?? -1;
-      _orderByName = _nameIndex == 0
-          ? StudentFields.name
-          : _nameIndex == 1
-              ? StudentFields.fatherName
-              : "";
-    });
   }
 
   void _openSortOptions(BuildContext context) {
@@ -288,7 +195,7 @@ class _HomePageState extends State<HomePage> {
                           fontSize: 18.0, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 16.0),
                   ToggleSwitch(
-                    initialLabelIndex: _genderIndex,
+                    initialLabelIndex: studentController.genderIndex.value,
                     totalSwitches: 2,
                     labels: Gender.values,
                     changeOnTap: true,
@@ -298,18 +205,18 @@ class _HomePageState extends State<HomePage> {
                     cornerRadius: 16,
                     onToggle: (index) {
                       setModalBottomSheetState(() {
-                        if (index == _genderIndex) {
-                          _genderIndex = -1;
+                        if (index == studentController.genderIndex.value) {
+                          studentController.genderIndex.value = -1;
                         } else {
-                          _genderIndex = index!;
+                          studentController.genderIndex.value = index!;
                         }
-                        saveToggleState();
+                        studentController.saveToggleState();
                       });
                     },
                   ),
                   const SizedBox(height: 8.0),
                   ToggleSwitch(
-                    initialLabelIndex: _nameIndex,
+                    initialLabelIndex: studentController.nameIndex.value,
                     totalSwitches: 2,
                     changeOnTap: true,
                     animate: true,
@@ -322,12 +229,12 @@ class _HomePageState extends State<HomePage> {
                     ],
                     onToggle: (index) {
                       setModalBottomSheetState(() {
-                        if (index == _nameIndex) {
-                          _nameIndex = -1;
+                        if (index == studentController.nameIndex.value) {
+                          studentController.nameIndex.value = -1;
                         } else {
-                          _nameIndex = index!;
+                          studentController.nameIndex.value = index!;
                         }
-                        saveToggleState();
+                        studentController.saveToggleState();
                       });
                     },
                   ),
@@ -336,16 +243,20 @@ class _HomePageState extends State<HomePage> {
                     child: ElevatedButton(
                       onPressed: () {
                         navigatorKey.currentState?.pop();
-                        setState(() {
-                          _orderByGender = _genderIndex < 0
-                              ? ""
-                              : Gender.values[_genderIndex];
-                          _orderByName = _nameIndex == 0
-                              ? StudentFields.name
-                              : _nameIndex == 1
-                                  ? StudentFields.fatherName
-                                  : "";
-                        });
+
+                        studentController.orderByGender = studentController
+                                    .genderIndex.value <
+                                0
+                            ? ""
+                            : Gender
+                                .values[studentController.genderIndex.value];
+                        studentController.orderByName =
+                            studentController.nameIndex.value == 0
+                                ? StudentFields.name
+                                : studentController.nameIndex.value == 1
+                                    ? StudentFields.fatherName
+                                    : "";
+                        studentController.getStudentsDetails();
                       },
                       child: const Text('Apply'),
                     ),

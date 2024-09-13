@@ -118,7 +118,7 @@ class _SetupState extends State<Setup> {
                           showSnack("${classModel.className} Added.");
                           navigatorKey.currentState?.pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => const HomePage(),
+                              builder: (context) => HomePage(),
                             ),
                           );
                         } else {

@@ -39,7 +39,7 @@ class StudentManagementApp extends StatelessWidget {
       ),
       scaffoldMessengerKey: scaffoldMessengerKey,
       navigatorKey: navigatorKey,
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
