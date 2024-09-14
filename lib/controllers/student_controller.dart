@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studentmanagement/database/databases.dart';
@@ -44,6 +45,7 @@ class StudentController extends GetxController {
         await StudentDBHelper.instance.addStudent(student);
       },
       "${student.name} is added successfully!",
+      student.gender,
     );
   }
 
@@ -53,6 +55,7 @@ class StudentController extends GetxController {
         await StudentDBHelper.instance.updateStudent(student);
       },
       "${student.name} is updated successfully!",
+      student.gender,
     );
   }
 
@@ -62,17 +65,21 @@ class StudentController extends GetxController {
         await StudentDBHelper.instance.deleteStudent(student.id!);
       },
       "${student.name} is deleted successfully!",
+      student.gender,
     );
   }
 
   Future<void> handleOperation(
-      Future<void> Function() operation, String message) async {
+      Future<void> Function() operation, String message, String gender) async {
     try {
       await operation();
       await getStudentsDetails();
       Get.snackbar(
         "Success",
         message,
+        backgroundColor: gender == Gender.boy
+            ? Colors.deepPurple.shade50
+            : Colors.pink.shade50,
       );
     } catch (e) {
       Get.snackbar(
