@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/controllers/add_update_controller.dart';
 import 'package:studentmanagement/controllers/student_controller.dart';
+import 'package:studentmanagement/utils/routes.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/models.dart';
@@ -64,7 +65,8 @@ class AddUpdateStudent extends StatelessWidget {
                               onPressed: () {
                                 Get.back(closeOverlays: true);
                                 studentController.deleteStudent(student);
-                                Get.back();
+                                Get.until((route) =>
+                                    Get.currentRoute == RouteName.studentsPage);
                               },
                               child: const Text(
                                 "Yes",
