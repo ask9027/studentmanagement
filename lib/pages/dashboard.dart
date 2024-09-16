@@ -25,14 +25,19 @@ class Dashboard extends StatelessWidget {
                 height: 40,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: InkWell(
-                  onTap: () => {},
+                  onTap: () => Get.toNamed(
+                    RouteName.schoolProfile,
+                    arguments: {
+                      "title": "School Profile",
+                    },
+                  ),
                   child: const Center(
                     child: Text(
                       "School Profile",
@@ -47,14 +52,19 @@ class Dashboard extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: InkWell(
-                  onTap: () => {},
+                  onTap: () => Get.toNamed(
+                    RouteName.staffManageent,
+                    arguments: {
+                      "title": "Staff Management",
+                    },
+                  ),
                   child: const Center(
                     child: Text(
                       "Staff Management",
@@ -69,8 +79,8 @@ class Dashboard extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
@@ -78,7 +88,9 @@ class Dashboard extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Get.toNamed(
                     RouteName.studentsPage,
-                    arguments: {"title": "Student Management"},
+                    arguments: {
+                      "title": "Student Management",
+                    },
                   ),
                   child: const Center(
                     child: Text(
