@@ -3,21 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/controllers/student_controller.dart';
+import 'package:studentmanagement/utils/routes.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../database/models.dart';
 import '../pages/pdf_and_printing.dart';
-import 'add_update.dart';
 
-class HomePage extends StatelessWidget {
+class StudentsPage extends StatelessWidget {
   final StudentController studentController = Get.put(StudentController());
-  HomePage({super.key});
+  final String title = Get.arguments["title"];
+  StudentsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Student Management"),
+        title: Text(title.toString()),
       ),
       body: Obx(
         () {
@@ -79,7 +80,7 @@ class HomePage extends StatelessWidget {
                                 colorText: Colors.white,
                               );
                               Timer(
-                                const Duration(seconds: 3),
+                                const Duration(seconds: 2),
                                 (() => PdfAndPrinting().createPdf(students)),
                               );
                             },
@@ -112,8 +113,8 @@ class HomePage extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            Get.to(
-                              () => AddUpdateStudent(),
+                            Get.toNamed(
+                              RouteName.addUpdatePage,
                               arguments: {
                                 "isAdd": false,
                                 "student": student,
@@ -164,8 +165,8 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(
-            () => AddUpdateStudent(),
+          Get.toNamed(
+            RouteName.addUpdatePage,
             arguments: {
               "isAdd": true,
               "student": null,

@@ -27,6 +27,7 @@ class StudentController extends GetxController {
   Future<void> getStudentsDetails() async {
     try {
       isLoading(true);
+      await Future.delayed(const Duration(milliseconds: 500));
       await StudentDBHelper.instance
           .getAllStudents(orderByGender, orderByName)
           .then((data) {
@@ -106,11 +107,5 @@ class StudentController extends GetxController {
         : nameIndex.value == 1
             ? StudentFields.fatherName
             : "";
-  }
-
-  @override
-  void onClose() {
-    StudentDBHelper.instance.close();
-    super.onClose();
   }
 }

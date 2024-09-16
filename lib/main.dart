@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:studentmanagement/utils/routes.dart';
 
-import 'pages/home_page.dart';
-
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const StudentManagementApp());
 }
 
@@ -33,7 +31,8 @@ class StudentManagementApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple,
         useMaterial3: true,
       ),
-      home: HomePage(),
+      initialRoute: RouteName.splashPage,
+      getPages: Routes.routes,
     );
   }
 }

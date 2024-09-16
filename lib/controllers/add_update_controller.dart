@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studentmanagement/extensions.dart';
+import 'package:studentmanagement/utils/extensions.dart';
 import '../database/models.dart';
 import 'student_controller.dart';
 
