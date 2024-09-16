@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studentmanagement/main.dart';
 import 'package:studentmanagement/controllers/student_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -135,8 +134,10 @@ class HomePage extends StatelessWidget {
                                   ),
                                   Text(
                                     student.name,
-                                    style: const TextStyle(
-                                      color: Colors.blueAccent,
+                                    style: TextStyle(
+                                      color: student.gender == Gender.boy
+                                          ? Colors.deepPurple.shade600
+                                          : Colors.pink.shade600,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -163,16 +164,13 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final currentNavigatorState = navigatorKey.currentState;
-          if (currentNavigatorState != null) {
-            Get.to(
-              () => AddUpdateStudent(),
-              arguments: {
-                "isAdd": true,
-                "student": null,
-              },
-            );
-          }
+          Get.to(
+            () => AddUpdateStudent(),
+            arguments: {
+              "isAdd": true,
+              "student": null,
+            },
+          );
         },
         child: const Icon(Icons.add),
       ),
@@ -242,8 +240,7 @@ class HomePage extends StatelessWidget {
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
-                        navigatorKey.currentState?.pop();
-
+                        Get.back();
                         studentController.orderByGender = studentController
                                     .genderIndex.value <
                                 0
