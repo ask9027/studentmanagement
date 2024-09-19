@@ -8,9 +8,10 @@ class SchoolProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(title),
+      appBar: AppBar(
+        title: Text(title),
       ),
+      body: Text(title),
     );
   }
 }

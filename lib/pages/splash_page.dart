@@ -7,12 +7,27 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Get.offAllNamed(RouteName.dashboardPage);
     });
     return const Scaffold(
       body: Center(
-        child: Text("Student Management"),
+        child: Column(
+          children: [
+            Text(
+              "Student Management",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            CircularProgressIndicator()
+          ],
+        ),
       ),
     );
   }
