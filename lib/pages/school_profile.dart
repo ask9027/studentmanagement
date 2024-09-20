@@ -9,9 +9,15 @@ class SchoolProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+          title,
+        ),
       ),
-      body: Text(title),
+      body: Center(
+        child: Text(
+          title,
+        ),
+      ),
     );
   }
 }

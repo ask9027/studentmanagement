@@ -13,11 +13,13 @@ class SplashPage extends StatelessWidget {
     return const Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "Student Management",
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.purple,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
