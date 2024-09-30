@@ -7,6 +7,8 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double cardHeight = MediaQuery.of(context).size.height * 0.2;
+    double cardWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
@@ -25,8 +27,8 @@ class Dashboard extends StatelessWidget {
                 height: 40,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 0.8,
+                height: cardHeight,
+                width: cardWidth,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
@@ -52,8 +54,8 @@ class Dashboard extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 0.8,
+                height: cardHeight,
+                width: cardWidth,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
@@ -79,8 +81,8 @@ class Dashboard extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 0.8,
+                height: cardHeight,
+                width: cardWidth,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade400,
                   borderRadius: BorderRadius.circular(20),
@@ -95,6 +97,33 @@ class Dashboard extends StatelessWidget {
                   child: const Center(
                     child: Text(
                       "Student Management",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: cardHeight,
+                width: cardWidth,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade400,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: InkWell(
+                  onTap: () => Get.toNamed(
+                    RouteName.resultPage,
+                    arguments: {
+                      "title": "Results",
+                    },
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Results",
                       style: TextStyle(
                         color: Colors.white,
                       ),

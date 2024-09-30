@@ -19,7 +19,7 @@ class SplashPage extends StatelessWidget {
             Text(
               "Student Management",
               style: TextStyle(
-                color: Colors.purple,
+                color: Colors.deepPurple,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
               ),
