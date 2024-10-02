@@ -68,7 +68,6 @@ class ClassFields {
   static const String isSetup = "isSetup";
 }
 
-
 // class Classess {
 //   static const String selectClass = 'Select Class';
 //   static const String first = '1st';
