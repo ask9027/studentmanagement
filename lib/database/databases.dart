@@ -73,10 +73,30 @@ CREATE TABLE $studentTable(
     );
   }
 
-  Future<List<SchoolProfile>> getSchoolProfile() async {
+  Future<SchoolProfile?> getSchoolProfile() async {
     final db = await instance.database;
     final result = await db.query(schoolProfileTable);
-    return result.map((json) => SchoolProfile.fromJson(json)).toList();
+    if (result.isNotEmpty) {
+      return result.map((json) => SchoolProfile.fromJson(json)).first;
+    } else {
+      return null;
+    }
+  }
+
+  Future<AcademicSession> addAcademicSession(
+      AcademicSession academicSession) async {
+    final db = await instance.database;
+    final id = await db.insert(academicSessionTable, academicSession.toJson());
+    return academicSession.copy(id: id);
+  }
+
+  Future<int> deleteAcademicSession(int id) async {
+    final db = await instance.database;
+    return db.delete(
+      academicSessionTable,
+      where: "${AcademicSessionFields.id} = ?",
+      whereArgs: [id],
+    );
   }
 
   Future<Student> addStudent(Student student) async {

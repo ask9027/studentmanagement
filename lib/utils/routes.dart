@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:studentmanagement/pages/add_school_profile.dart';
 import 'package:studentmanagement/pages/add_update.dart';
 import 'package:studentmanagement/pages/dashboard.dart';
 import 'package:studentmanagement/pages/result_page.dart';
@@ -14,6 +15,7 @@ class RouteName {
   static const String resultPage = "/resultPage";
   static const String addUpdatePage = "/addUpdatePage";
   static const String schoolProfile = "/schoolProfile";
+  static const String addSchoolProfile = "/addSchoolProfile";
   static const String staffManageent = "/staffManagement";
 }
 
@@ -42,6 +44,10 @@ class Routes {
     GetPage(
       name: RouteName.schoolProfile,
       page: () => SchoolProfile(),
+    ),
+    GetPage(
+      name: RouteName.addSchoolProfile,
+      page: () => AddSchoolProfile(),
     ),
     GetPage(
       name: RouteName.staffManageent,

@@ -7,7 +7,7 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardHeight = MediaQuery.of(context).size.height * 0.2;
+    double cardHeight = MediaQuery.of(context).size.height * 0.1;
     double cardWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       body: Padding(
