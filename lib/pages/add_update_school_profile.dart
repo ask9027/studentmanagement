@@ -42,7 +42,7 @@ class AddUpdateSchoolProfile extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
               TextFormField(
-                controller: controller.schoolNameCont,
+                controller: controller.contactCont,
                 decoration: const InputDecoration(
                   hintText: "Enter Contect Number",
                   label: Text("Contect Number"),
@@ -52,7 +52,7 @@ class AddUpdateSchoolProfile extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                controller: controller.addressCont,
+                controller: controller.recogCont,
                 decoration: const InputDecoration(
                   hintText: "Enter School Recognition",
                   label: Text("School Recognition"),
