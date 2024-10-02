@@ -127,6 +127,120 @@ class Student {
       };
 }
 
+// Academic Session Model
+const academicSessionTable = "academicSessionTable";
+
+class AcademicSessionFields {
+  static const String id = "_id";
+  static const String name = "name";
+  static const String isCurrent = "isCurrent";
+  static final List<String> values = [
+    id,
+    name,
+    isCurrent,
+  ];
+}
+
+class AcademicSession {
+  final int? id;
+  final String name; // e.g., "2014-2015"
+  final bool isCurrent;
+
+  const AcademicSession({
+    this.id,
+    required this.name,
+    this.isCurrent = false,
+  });
+  AcademicSession copy({
+    int? id,
+    String? name,
+    bool? isCurrent,
+  }) =>
+      AcademicSession(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        isCurrent: isCurrent ?? this.isCurrent,
+      );
+
+  static AcademicSession fromJson(Map<String, Object?> json) => AcademicSession(
+        id: json[AcademicSessionFields.id] as int?,
+        name: json[AcademicSessionFields.name] as String,
+        isCurrent: json[AcademicSessionFields.isCurrent] as bool,
+      );
+
+  Map<String, Object?> toJson() => {
+        AcademicSessionFields.id: id,
+        AcademicSessionFields.name: name,
+        AcademicSessionFields.isCurrent: isCurrent,
+      };
+}
+
+// School Profile Model
+const schoolProfileTable = "schoolProfileTable";
+
+class SchoolProfileFields {
+  static const String id = "_id";
+  static const String schoolName = "schoolName";
+  static const String address = "address";
+  static const String contactNumber = "contactNumber";
+  static const String schoolRecognition = "schoolRecognition";
+  static final List<String> values = [
+    id,
+    schoolName,
+    address,
+    contactNumber,
+    schoolRecognition,
+  ];
+}
+
+class SchoolProfile {
+  final int? id;
+  final String schoolName;
+  final String address;
+  final String contactNumber;
+  final String schoolRecognition;
+
+  const SchoolProfile({
+    this.id,
+    required this.schoolName,
+    required this.address,
+    required this.contactNumber,
+    required this.schoolRecognition,
+  });
+
+  SchoolProfile copy({
+    int? id,
+    String? schoolName,
+    String? address,
+    String? contactNumber,
+    String? schoolRecognition,
+  }) =>
+      SchoolProfile(
+        id: id ?? this.id,
+        schoolName: schoolName ?? this.schoolName,
+        address: address ?? this.address,
+        contactNumber: contactNumber ?? this.contactNumber,
+        schoolRecognition: schoolRecognition ?? this.schoolRecognition,
+      );
+
+  static SchoolProfile fromJson(Map<String, Object?> json) => SchoolProfile(
+        id: json[SchoolProfileFields.id] as int?,
+        schoolName: json[SchoolProfileFields.schoolName] as String,
+        address: json[SchoolProfileFields.address] as String,
+        contactNumber: json[SchoolProfileFields.contactNumber] as String,
+        schoolRecognition:
+            json[SchoolProfileFields.schoolRecognition] as String,
+      );
+
+  Map<String, Object?> toJson() => {
+        SchoolProfileFields.id: id,
+        SchoolProfileFields.schoolName: schoolName,
+        SchoolProfileFields.address: address,
+        SchoolProfileFields.contactNumber: contactNumber,
+        SchoolProfileFields.schoolRecognition: schoolRecognition,
+      };
+}
+
 // Class Fields and Model
 
 const classTable = "classTable";

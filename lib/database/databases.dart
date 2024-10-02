@@ -21,6 +21,24 @@ class StudentDBHelper {
   Future _createDB(Database db, int version) async {
     const idType = "INTEGER PRIMARY KEY";
     const textType = "TEXT NOT NULL";
+    const intType = "INTEGER NOT NULL";
+
+    await db.execute("""
+CREATE TABLE $schoolProfileTable(
+  ${SchoolProfileFields.id} $idType,
+  ${SchoolProfileFields.schoolName} $textType,
+  ${SchoolProfileFields.address} $textType,
+  ${SchoolProfileFields.contactNumber} $textType,
+  ${SchoolProfileFields.schoolRecognition} $intType
+)
+""");
+    await db.execute("""
+CREATE TABLE $academicSessionTable(
+  ${AcademicSessionFields.id} $idType,
+  ${AcademicSessionFields.name} $textType,
+  ${AcademicSessionFields.isCurrent} $intType
+)
+""");
     await db.execute("""
 CREATE TABLE $studentTable(
   ${StudentFields.id} $idType,
@@ -37,6 +55,28 @@ CREATE TABLE $studentTable(
 //  ${ClassFields.isSetup} $textType
 //)
 //""");
+  }
+
+  Future<SchoolProfile> saveSchoolProfile(SchoolProfile schoolProfile) async {
+    final db = await instance.database;
+    final id = await db.insert(schoolProfileTable, schoolProfile.toJson());
+    return schoolProfile.copy(id: id);
+  }
+
+  Future<int> updateSchoolProfile(SchoolProfile schoolProfile) async {
+    final db = await instance.database;
+    return db.update(
+      schoolProfileTable,
+      schoolProfile.toJson(),
+      where: "${SchoolProfileFields.id} = ?",
+      whereArgs: [schoolProfile.id],
+    );
+  }
+
+  Future<List<SchoolProfile>> getSchoolProfile() async {
+    final db = await instance.database;
+    final result = await db.query(schoolProfileTable);
+    return result.map((json) => SchoolProfile.fromJson(json)).toList();
   }
 
   Future<Student> addStudent(Student student) async {
