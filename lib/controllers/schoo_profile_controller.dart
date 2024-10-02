@@ -1,11 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/database/databases.dart';
 import 'package:studentmanagement/database/models.dart';
+import 'package:studentmanagement/utils/extensions.dart';
 
 class SchooProfileController extends GetxController {
-  late SchoolProfile schoolProfile;
+  var schoolProfile = <SchoolProfile>[].obs;
   var isLoading = false.obs;
   var error = "".obs;
+  final TextEditingController schoolNameCont = TextEditingController();
+  final TextEditingController addressCont = TextEditingController();
+  final TextEditingController contactCont = TextEditingController();
+  final TextEditingController recogCont = TextEditingController();
+
+  RxBool isBtnEnable = false.obs;
 
   @override
   void onInit() {
@@ -13,8 +21,39 @@ class SchooProfileController extends GetxController {
     initializeData();
   }
 
+  void initialize(bool isAdd, SchoolProfile? profile) {
+    if (!isAdd && profile != null) {
+      schoolNameCont.text = profile.schoolName;
+      addressCont.text = profile.address;
+      contactCont.text = profile.contactNumber;
+      recogCont.text = profile.schoolRecognition;
+    }
+  }
+
+  void checkFields() {
+    isBtnEnable.value = schoolNameCont.text.isNotEmpty &&
+        addressCont.text.isNotEmpty &&
+        contactCont.text.isNotEmpty &&
+        recogCont.text.isNotEmpty;
+  }
+
   Future<void> initializeData() async {
     await getSchoolProfile();
+  }
+
+  Future<void> saveSchoolProfile({SchoolProfile? existingProfile}) async {
+    final profile = SchoolProfile(
+        schoolName: schoolNameCont.text.toTitleCase(),
+        address: addressCont.text.toCapitalized(),
+        contactNumber: contactCont.text,
+        schoolRecognition: recogCont.text);
+
+    if (existingProfile == null) {
+      await StudentDBHelper.instance.saveSchoolProfile(profile);
+    } else {
+      await StudentDBHelper.instance.updateSchoolProfile(profile);
+    }
+    Get.back(closeOverlays: true);
   }
 
   Future<void> getSchoolProfile() async {
@@ -22,7 +61,7 @@ class SchooProfileController extends GetxController {
       isLoading(true);
       await Future.delayed(const Duration(milliseconds: 300));
       await StudentDBHelper.instance.getSchoolProfile().then((data) {
-        schoolProfile = data!;
+        schoolProfile.assignAll(data);
       });
     } catch (e) {
       error("Error While loading profile data: $e");

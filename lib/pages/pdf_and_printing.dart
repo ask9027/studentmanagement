@@ -1,6 +1,7 @@
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
+import 'package:studentmanagement/database/models_fields.dart';
 
 import '../database/models.dart';
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/controllers/add_update_controller.dart';
 import 'package:studentmanagement/controllers/student_controller.dart';
+import 'package:studentmanagement/database/models_fields.dart';
 import 'package:studentmanagement/utils/routes.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 

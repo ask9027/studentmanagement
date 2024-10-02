@@ -23,15 +23,15 @@ class SchoolProfile extends StatelessWidget {
             return Center(
               child: Text(schooProfileController.error.value),
             );
-          } else if (schooProfileController.schoolProfile.schoolName.isEmpty) {
+          } else if (schooProfileController.schoolProfile.isEmpty) {
             return Center(
               child: TextButton(
                 onPressed: () {
                   Get.toNamed(
-                    RouteName.addSchoolProfile,
+                    RouteName.addUpdateSchoolProfile,
                     arguments: {
                       "title": "Add School Profile",
-                      "profile": schooProfileController.schoolProfile
+                      "isAdd": true,
                     },
                   );
                 },
@@ -39,23 +39,38 @@ class SchoolProfile extends StatelessWidget {
               ),
             );
           } else {
-            final profile = schooProfileController.schoolProfile;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "School Name : ${profile.schoolName}",
-                ),
-                Text(
-                  "Address : ${profile.address}",
-                ),
-                Text(
-                  "Contect Number : ${profile.contactNumber}",
-                ),
-                Text(
-                  "Recognition : ${profile.schoolRecognition}",
-                ),
-              ],
+            final profile = schooProfileController.schoolProfile.first;
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "School Name : ${profile.schoolName}",
+                  ),
+                  Text(
+                    "Address : ${profile.address}",
+                  ),
+                  Text(
+                    "Contect Number : ${profile.contactNumber}",
+                  ),
+                  Text(
+                    "Recognition : ${profile.schoolRecognition}",
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed(
+                        RouteName.addUpdateSchoolProfile,
+                        arguments: {
+                          "title": "Update Profile",
+                          "profile": schooProfileController.schoolProfile,
+                          "isAdd": false,
+                        },
+                      );
+                    },
+                    child: Text("Update Profile"),
+                  ),
+                ],
+              ),
             );
           }
         },

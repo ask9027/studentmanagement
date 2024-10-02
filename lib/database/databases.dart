@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:studentmanagement/database/models_fields.dart';
 
 import '../database/models.dart';
 
@@ -73,14 +74,11 @@ CREATE TABLE $studentTable(
     );
   }
 
-  Future<SchoolProfile?> getSchoolProfile() async {
+  Future<List<SchoolProfile>> getSchoolProfile() async {
     final db = await instance.database;
     final result = await db.query(schoolProfileTable);
-    if (result.isNotEmpty) {
-      return result.map((json) => SchoolProfile.fromJson(json)).first;
-    } else {
-      return null;
-    }
+
+    return result.map((json) => SchoolProfile.fromJson(json)).toList();
   }
 
   Future<AcademicSession> addAcademicSession(

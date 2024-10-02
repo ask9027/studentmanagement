@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studentmanagement/database/databases.dart';
 import 'package:studentmanagement/database/models.dart';
+import 'package:studentmanagement/database/models_fields.dart';
 
 class StudentController extends GetxController {
   late String orderByGender;
