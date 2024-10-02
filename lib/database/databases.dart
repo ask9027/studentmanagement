@@ -22,7 +22,6 @@ class StudentDBHelper {
   Future _createDB(Database db, int version) async {
     const idType = "INTEGER PRIMARY KEY";
     const textType = "TEXT NOT NULL";
-    const intType = "INTEGER NOT NULL";
 
     await db.execute("""
 CREATE TABLE $schoolProfileTable(
@@ -30,14 +29,14 @@ CREATE TABLE $schoolProfileTable(
   ${SchoolProfileFields.schoolName} $textType,
   ${SchoolProfileFields.address} $textType,
   ${SchoolProfileFields.contactNumber} $textType,
-  ${SchoolProfileFields.schoolRecognition} $intType
+  ${SchoolProfileFields.schoolRecognition} $textType
 )
 """);
     await db.execute("""
 CREATE TABLE $academicSessionTable(
   ${AcademicSessionFields.id} $idType,
   ${AcademicSessionFields.name} $textType,
-  ${AcademicSessionFields.isCurrent} $intType
+  ${AcademicSessionFields.isCurrent} $textType
 )
 """);
     await db.execute("""
