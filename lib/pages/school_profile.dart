@@ -19,7 +19,11 @@ class SchoolProfile extends StatelessWidget {
       ),
       body: Obx(
         () {
-          if (schooProfileController.error.isNotEmpty) {
+          if (schooProfileController.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (schooProfileController.error.isNotEmpty) {
             return Center(
               child: Text(schooProfileController.error.value),
             );
@@ -56,7 +60,7 @@ class SchoolProfile extends StatelessWidget {
                   Text(
                     "Recognition : ${profile.schoolRecognition}",
                   ),
-                  TextButton(
+                  OutlinedButton(
                     onPressed: () {
                       Get.toNamed(
                         RouteName.addUpdateSchoolProfile,

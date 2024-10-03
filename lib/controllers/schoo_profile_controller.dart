@@ -48,18 +48,20 @@ class SchooProfileController extends GetxController {
         contactNumber: contactCont.text,
         schoolRecognition: recogCont.text);
 
+    Future<void> operation;
     if (existingProfile == null) {
-      await StudentDBHelper.instance.saveSchoolProfile(profile);
+      operation = StudentDBHelper.instance.saveSchoolProfile(profile);
     } else {
-      await StudentDBHelper.instance.updateSchoolProfile(profile);
+      operation = StudentDBHelper.instance.updateSchoolProfile(profile);
     }
-    Get.back(closeOverlays: true);
+    operation.then(
+      (_) => Get.back(),
+    );
   }
 
   Future<void> getSchoolProfile() async {
     try {
       isLoading(true);
-      await Future.delayed(const Duration(milliseconds: 300));
       await StudentDBHelper.instance.getSchoolProfile().then((data) {
         schoolProfile.assignAll(data);
       });

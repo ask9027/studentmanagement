@@ -11,6 +11,7 @@ class AddUpdateSchoolProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.initialize(isAdd, profile);
     return Scaffold(
       appBar: AppBar(
         title: Text(isAdd ? "Add Profile" : "Update Profile"),
@@ -31,7 +32,9 @@ class AddUpdateSchoolProfile extends StatelessWidget {
                 onChanged: (value) => controller.checkFields(),
                 textInputAction: TextInputAction.next,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 controller: controller.addressCont,
                 decoration: const InputDecoration(
@@ -40,6 +43,9 @@ class AddUpdateSchoolProfile extends StatelessWidget {
                 ),
                 onChanged: (value) => controller.checkFields(),
                 textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(
+                height: 20,
               ),
               TextFormField(
                 controller: controller.contactCont,
@@ -50,7 +56,9 @@ class AddUpdateSchoolProfile extends StatelessWidget {
                 onChanged: (value) => controller.checkFields(),
                 textInputAction: TextInputAction.next,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 controller: controller.recogCont,
                 decoration: const InputDecoration(
@@ -60,8 +68,9 @@ class AddUpdateSchoolProfile extends StatelessWidget {
                 onChanged: (value) => controller.checkFields(),
                 textInputAction: TextInputAction.next,
               ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 30),
+              const SizedBox(
+                height: 30,
+              ),
               Obx(
                 () => OutlinedButton(
                   onPressed: controller.isBtnEnable.value
