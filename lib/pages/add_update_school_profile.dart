@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studentmanagement/controllers/schoo_profile_controller.dart';
+import 'package:studentmanagement/database/models.dart';
 
 class AddUpdateSchoolProfile extends StatelessWidget {
   AddUpdateSchoolProfile({super.key});
-  final title = Get.arguments["title"];
-  final profile = Get.arguments["profile"];
   final SchooProfileController controller = Get.find<SchooProfileController>();
-  final isAdd = Get.arguments["isAdd"];
-
   @override
   Widget build(BuildContext context) {
+    final title = Get.arguments["title"];
+    final SchoolProfile? profile = Get.arguments["profile"];
+    final isAdd = Get.arguments["isAdd"];
+
     controller.initialize(isAdd, profile);
     return Scaffold(
       appBar: AppBar(
-        title: Text(isAdd ? "Add Profile" : "Update Profile"),
+        title: Text(title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),

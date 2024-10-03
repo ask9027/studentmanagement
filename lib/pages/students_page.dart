@@ -169,7 +169,6 @@ class StudentsPage extends StatelessWidget {
             RouteName.addUpdatePage,
             arguments: {
               "isAdd": true,
-              "student": null,
             },
           );
         },

@@ -23,7 +23,7 @@ class SchoolProfile extends StatelessWidget {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (schooProfileController.error.isNotEmpty) {
+          } else if (schooProfileController.error.value.isNotEmpty) {
             return Center(
               child: Text(schooProfileController.error.value),
             );
@@ -66,7 +66,7 @@ class SchoolProfile extends StatelessWidget {
                         RouteName.addUpdateSchoolProfile,
                         arguments: {
                           "title": "Update Profile",
-                          "profile": schooProfileController.schoolProfile,
+                          "profile": profile,
                           "isAdd": false,
                         },
                       );
